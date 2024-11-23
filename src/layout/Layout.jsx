@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import Footer from './components/Footer'
+import { Helmet } from 'react-helmet'
 
 const Layout = () => {
   return (
@@ -25,6 +26,9 @@ const Layout = () => {
 
         <Footer />
     </div>
+   
+    
+    
 
     </>
   )

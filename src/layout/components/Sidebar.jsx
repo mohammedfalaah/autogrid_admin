@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { contextData } from '../../services/Context'
+import { Link } from 'react-router-dom'
+import {  productPath } from '../../utils/Constants'
 
 const Sidebar = () => {
   return (
@@ -11,127 +13,35 @@ const Sidebar = () => {
       <div className="m-header">
         <a href="index.html" className="b-brand text-primary">
           {/* ========   Change your logo from here   ============ */}
-          <img src="https://html.phoenixcoded.net/light-able/bootstrap/assets/images/logo-dark.svg" alt="logo image" className="logo-lg" />
+          {/* height: 70px;
+    width: 70px;
+    border-radius: 20px; */}
+          <img style={{height:'70px',width:'70px',borderRadius:'10px'}} src="/assets/images/IMG_4833.jpg" alt="logo image" className="logo-lg" />
           <span className="badge bg-brand-color-2 rounded-pill ms-2 theme-version">v1.2.0</span>
         </a>
       </div>
       <div className="navbar-content">
         <ul className="pc-navbar">
-          <li className="pc-item pc-caption">
-            <label>Navigation</label>
-            <i className="ph-duotone ph-gauge" />
-          </li>
+         
           <li className="pc-item pc-hasmenu">
-            <a href="#!" className="pc-link">
+            <Link className="pc-link">
               <span className="pc-micon">
                 <i className="ph-duotone ph-gauge" />
               </span>
               <span className="pc-mtext">Dashboard</span>
-              <span className="pc-arrow"><i data-feather="chevron-right" /></span>
-              <span className="pc-badge">2</span>
-            </a>
-            <ul className="pc-submenu">
-              <li className="pc-item"><a className="pc-link" href="index.html">Analytics</a></li>
-              <li className="pc-item"><a className="pc-link" href="affiliate.html">Affiliate</a></li>
-              <li className="pc-item"><a className="pc-link" href="finance.html">Finance</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/admins/helpdesk-dashboard.html">Helpdesk</a></li>
-              <li className="pc-item"><a className="pc-link" href="invoice.html">Invoice</a></li>
-            </ul>
+             
+            </Link>
+          
           </li>
+    
+        
           <li className="pc-item pc-hasmenu">
-            <a href="#!" className="pc-link"><span className="pc-micon"> <i className="ph-duotone ph-layout" /></span><span className="pc-mtext">Layouts</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></a>
-            <ul className="pc-submenu">
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-horizontal.html">Horizontal</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-vertical.html">Vertical</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-vertical-tab.html">Vertical + Tab</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-tab.html">Tab</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-2-column.html">2 Column</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-big-compact.html">Big Compact</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-compact.html">Compact</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-moduler.html">Moduler</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-creative.html">Creative</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-detached.html">Detached</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-advanced.html">Advanced</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/demo/layout-extended.html">Extended</a></li>
-            </ul>
-          </li>
-          <li className="pc-item pc-caption">
-            <label>Widget</label>
-            <i className="ph-duotone ph-chart-pie" />
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/widget/w_statistics.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-projector-screen-chart" />
-              </span>
-              <span className="pc-mtext">Statistics</span>
-            </a>
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/widget/w_user.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-identification-card" />
-              </span>
-              <span className="pc-mtext">User</span>
-            </a>
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/widget/w_data.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-database" />
-              </span>
-              <span className="pc-mtext">Data</span>
-            </a>
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/widget/w_chart.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-chart-pie" />
-              </span>
-              <span className="pc-mtext">Chart</span></a>
-          </li>
-          <li className="pc-item pc-caption">
-            <label>Application</label>
-            <i className="ph-duotone ph-buildings" />
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/application/calendar.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-calendar-blank" />
-              </span>
-              <span className="pc-mtext">Calendar</span></a>
-          </li>
-          <li className="pc-item">
-            <a href="https://html.phoenixcoded.net/light-able/bootstrap/application/chat.html" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-chats-circle" />
-              </span>
-              <span className="pc-mtext">Chat</span></a>
-          </li>
-          <li className="pc-item pc-hasmenu">
-            <a href="#!" className="pc-link">
-              <span className="pc-micon">
-                <i className="ph-duotone ph-image" />
-              </span>
-              <span className="pc-mtext">Gallery</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></a>
-            <ul className="pc-submenu">
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/gallery-grid.html">Grid</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/gallery-masonry.html">Masonry</a></li>
-            </ul>
-          </li>
-          <li className="pc-item pc-hasmenu">
-            <a href="#!" className="pc-link">
+            <Link  to={productPath} className="pc-link">
               <span className="pc-micon">
                 <i className="ph-duotone ph-shopping-cart" />
               </span>
-              <span className="pc-mtext">E-commerce</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></a>
-            <ul className="pc-submenu">
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/ecom_product.html">Product</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/ecom_product-details.html">Product details</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/ecom_product-list.html">Product List</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/ecom_product-add.html">Add New Product</a></li>
-              <li className="pc-item"><a className="pc-link" href="https://html.phoenixcoded.net/light-able/bootstrap/application/ecom_checkout.html">Checkout</a></li>
-            </ul>
+              <span className="pc-mtext">Products</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></Link>
+         
           </li>
           <li className="pc-item pc-hasmenu">
             <a href="#!" className="pc-link"><span className="pc-micon"><i className="ph-duotone ph-lifebuoy" /></span><span className="pc-mtext">Helpdesk</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></a>

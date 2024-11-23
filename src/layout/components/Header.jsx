@@ -1,6 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  let navigate = useNavigate();
+  const logoutHandler = () => {
+    window.localStorage.clear()
+    return navigate("/login")
+  }
   return (
     <>
      <header className="pc-header">
@@ -301,143 +307,9 @@ const Header = () => {
             </div>
           </li>
           <li className="dropdown pc-h-item header-user-profile">
-            <a className="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" className="user-avtar" />
-            </a>
-            <div className="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-              <div className="dropdown-header d-flex align-items-center justify-content-between">
-                <h5 className="m-0">Profile</h5>
-              </div>
-              <div className="dropdown-body">
-                <div className="profile-notification-scroll position-relative" style={{maxHeight: 'calc(100vh - 225px)'}}>
-                  <ul className="list-group list-group-flush w-100">
-                    <li className="list-group-item">
-                      <div className="d-flex align-items-center">
-                        <div className="flex-shrink-0">
-                          <img src="../assets/images/user/avatar-2.jpg" alt="user-image" className="wid-50 rounded-circle" />
-                        </div>
-                        <div className="flex-grow-1 mx-3">
-                          <h5 className="mb-0">Carson Darrin</h5>
-                          <a className="link-primary" href="mailto:carson.darrin@company.io">carson.darrin@company.io</a>
-                        </div>
-                        <span className="badge bg-primary">PRO</span>
-                      </div>
-                    </li>
-                    <li className="list-group-item">
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-key" />
-                          <span>Change password</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-envelope-simple" />
-                          <span>Recently mail</span>
-                        </span>
-                        <div className="user-group">
-                          <img src="../assets/images/user/avatar-1.jpg" alt="user-image" className="avtar" />
-                          <img src="../assets/images/user/avatar-2.jpg" alt="user-image" className="avtar" />
-                          <img src="../assets/images/user/avatar-3.jpg" alt="user-image" className="avtar" />
-                        </div>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-calendar-blank" />
-                          <span>Schedule meetings</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li className="list-group-item">
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-heart" />
-                          <span>Favorite</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-arrow-circle-down" />
-                          <span>Download</span>
-                        </span>
-                        <span className="avtar avtar-xs rounded-circle bg-danger text-white">10</span>
-                      </a>
-                    </li>
-                    <li className="list-group-item">
-                      <div className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-globe-hemisphere-west" />
-                          <span>Languages</span>
-                        </span>
-                        <span className="flex-shrink-0">
-                          <select className="form-select bg-transparent form-select-sm border-0 shadow-none">
-                            <option value={1}>English</option>
-                            <option value={2}>Spain</option>
-                            <option value={3}>Arbic</option>
-                          </select>
-                        </span>
-                      </div>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-flag" />
-                          <span>Country</span>
-                        </span>
-                      </a>
-                      <div className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-moon" />
-                          <span>Dark mode</span>
-                        </span>
-                        <div className="form-check form-switch form-check-reverse m-0">
-                          <input className="form-check-input f-18" id="dark-mode" type="checkbox" onclick="dark_mode()" role="switch" />
-                        </div>
-                      </div>
-                    </li>
-                    <li className="list-group-item">
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-user-circle" />
-                          <span>Edit profile</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-star text-warning" />
-                          <span>Upgrade account</span>
-                          <span className="badge bg-light-success border border-success ms-2">NEW</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-bell" />
-                          <span>Notifications</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-gear-six" />
-                          <span>Settings</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li className="list-group-item">
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-plus-circle" />
-                          <span>Add account</span>
-                        </span>
-                      </a>
-                      <a href="#" className="dropdown-item">
-                        <span className="d-flex align-items-center">
-                          <i className="ph-duotone ph-power" />
-                          <span>Logout</span>
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <a onClick={logoutHandler} className="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+Logout            </a>
+          
           </li>
         </ul>
       </div>

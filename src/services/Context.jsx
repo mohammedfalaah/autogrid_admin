@@ -8,6 +8,9 @@ export const Context_provider = ({ children }) => {
 
         setSidebar(!sidebr)
     }
+
+
+
     return (
         <contextData.Provider value={{
             toggleSidebar,
