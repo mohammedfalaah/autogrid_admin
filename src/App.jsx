@@ -5,7 +5,7 @@ import Layout from "./layout/Layout"
 import ProductPage from "./pages/private/ProductPage"
 import { basePath, dashboardPath, loginPath, productPath } from "./utils/Constants"
 import Login from "./layout/components/Login"
-import PrivateRoute from "./utils/PrivateRoute"
+import {PrivateRoute} from "./utils/PrivateRoute"
 import { Context_provider } from "./services/Context"
 
 
