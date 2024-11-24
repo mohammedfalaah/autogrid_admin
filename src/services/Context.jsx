@@ -21,7 +21,6 @@ export const Context_provider = ({ children }) => {
     return (
         <contextData.Provider value={{
             toggleSidebar,
-
             sidebr,
             user,
             setUser
