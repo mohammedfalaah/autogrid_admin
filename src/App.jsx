@@ -5,8 +5,8 @@ import Layout from "./layout/Layout"
 import ProductPage from "./pages/private/ProductPage"
 import { basePath, dashboardPath, loginPath, productPath } from "./utils/Constants"
 import Login from "./layout/components/Login"
-import { PrivateRoute } from "./utils/PrivateRoute"
-import { PublicRoute } from "./utils/PublicRoute"
+import PrivateRoute from "./utils/PrivateRoute"
+import { Context_provider } from "./services/Context"
 
 
 
@@ -14,7 +14,8 @@ function App() {
 
   return (
     <>
-    <Routes>
+      <Context_provider>
+      <Routes>
       <Route path={basePath + loginPath} element={<Login />}/>
       <Route path={basePath} element={<PrivateRoute> <Layout /> </PrivateRoute>}>
       <Route path={dashboardPath} element={<Dashboard />}/>
@@ -22,6 +23,8 @@ function App() {
 
       </Route>
     </Routes>
+      </Context_provider>
+   
 
 
 
