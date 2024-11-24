@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { basePath, dashboardPath } from '../../utils/Constants';
 import { Form } from 'react-bootstrap';
 import { loginApi } from '../../services/BaseUrl';
-
+import { contextData } from '../../services/Context';
+import { useContext } from "react";
+import {jwtDecode} from "jwt-decode";
 const Login = () => {
     const [formdata, setformdata] = useState({ email: "", password: "" });
-
+    const { setUser, user } = useContext(contextData);
 
     // const handleLogin = async (event) => {
     //     event.preventDefault();
@@ -62,12 +64,17 @@ const Login = () => {
             },
             body: JSON.stringify(formdata),
           });
+       
           const data = await response.json();
+          console.log(data,"responseresponseresponseresponseresponse")
           console.log(data.token, "datadata");
           if (response.status === 200) {
-            window.localStorage.setItem("token",data.token);
+            localStorage.setItem("token", data.token);
+            setUser(jwtDecode(data?.token));
+         
+            // window.localStorage.setItem("token",data.token);
             alert("success login")
-            window.location.href = dashboardPath;
+            window.location.href = basePath;
           } else {
             Show_Toast("Invalid username or password", false);
           }
