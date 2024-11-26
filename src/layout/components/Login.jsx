@@ -6,6 +6,8 @@ import { loginApi } from '../../services/BaseUrl';
 import { contextData } from '../../services/Context';
 import { useContext } from "react";
 import {jwtDecode} from "jwt-decode";
+import { show_toast } from '../../utils/Toast';
+import toast from 'react-hot-toast';
 const Login = () => {
     const [formdata, setformdata] = useState({ email: "", password: "" });
     const { setUser, user } = useContext(contextData);
@@ -71,12 +73,11 @@ const Login = () => {
           if (response.status === 200) {
             localStorage.setItem("token", data.token);
             setUser(jwtDecode(data?.token));
-         
-            // window.localStorage.setItem("token",data.token);
-            alert("success login")
+            show_toast("Logged in Successfully", true);
+
             window.location.href = basePath;
           } else {
-            Show_Toast("Invalid username or password", false);
+            show_toast("Invalid username or password", false);
           }
         } catch (error) {
           console.error("Login error", error);

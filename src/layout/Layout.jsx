@@ -4,6 +4,7 @@ import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
 import Footer from './components/Footer'
 import { Helmet } from 'react-helmet'
+import { Toaster } from 'react-hot-toast'
 
 const Layout = () => {
   return (
@@ -25,6 +26,7 @@ const Layout = () => {
         </div>
 
         <Footer />
+
     </div>
    
     

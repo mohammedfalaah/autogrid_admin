@@ -22,7 +22,7 @@ const ProductPage = () => {
     try {
       const response = await fetch("https://aginode.vercel.app/api/getAllproducts");
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
+        throw new Error("No product Found");
       }
       const data = await response.json();
       setProducts(data.products);
@@ -35,26 +35,27 @@ const ProductPage = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append("productName", form.productName);
+    formData.append("specifications", form.specifications.split(",").map((spec) => spec.trim()));
+    formData.append("originalPrice", form.originalPrice);
+    formData.append("currentPrice", form.currentPrice);
+    formData.append("category", form.category);
+      for (let i = 0; i < form.photographs.length; i++) {
+      formData.append("photographs", form.photographs[i]);
+    }
+  
     try {
       const response = await fetch("https://aginode.vercel.app/api/addproducts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productName: form.productName,
-          specifications: form.specifications.split(",").map((spec) => spec.trim()),
-          originalPrice: parseFloat(form.originalPrice),
-          currentPrice: parseFloat(form.currentPrice),
-          category: parseFloat(form.category),
-          photographs: parseFloat(form.photographs),
-        }),
+        body: formData, // Send FormData directly
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to add product");
       }
-
+  
       const newProduct = await response.json();
       setProducts((prevProducts) => [...prevProducts, newProduct]);
       setProductModal({ show: false });
@@ -63,13 +64,14 @@ const ProductPage = () => {
         specifications: "",
         originalPrice: "",
         currentPrice: "",
-        category:"",
-        photographs:"",
+        category: "",
+        photographs: [],
       });
     } catch (err) {
       setError(err.message);
     }
   };
+  
 
   useEffect(() => {
     fetchProducts();
@@ -83,9 +85,7 @@ const ProductPage = () => {
       <div>
         <div className="row">
           <div className="col-sm-12">
-            <div className="card table-card">
-              <div className="card-body">
-                <div className="text-end p-sm-4 pb-sm-2">
+          <div style={{marginBottom:'10px'}} className="text-end p-sm-4 pb-sm-2">
                   <button
                     onClick={() => setProductModal({ show: true })}
                     className="btn btn-primary"
@@ -93,6 +93,9 @@ const ProductPage = () => {
                     <i className="ti ti-plus f-18" /> Add Product
                   </button>
                 </div>
+            <div className="card table-card">
+              <div className="card-body">
+            
                 <div className="table-responsive">
                   <table className="table table-hover tbl-product">
                     <thead>
@@ -125,8 +128,8 @@ const ProductPage = () => {
                           <td>
                             {product.specifications?.join(", ") || "N/A"}
                           </td>
-                          <td className="text-end">${product.originalPrice}</td>
-                          <td className="text-end">${product.currentPrice}</td>
+                          <td className="text-end">₹{product.originalPrice}</td>
+                          <td className="text-end">₹{product.currentPrice}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -190,6 +193,16 @@ const ProductPage = () => {
                   }
                 />
               </div>
+              <div className="mb-3">
+  <label className="form-label">Photographs</label>
+  <input
+    type="file"
+    className="form-control"
+    multiple
+    onChange={(e) => setForm({ ...form, photographs: Array.from(e.target.files) })}
+  />
+</div>
+
               <div className="mb-3">
                 <label className="form-label">Original Price</label>
                 <input
