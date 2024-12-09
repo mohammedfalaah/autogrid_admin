@@ -5,93 +5,55 @@ import { Form } from 'react-bootstrap';
 import { loginApi } from '../../services/BaseUrl';
 import { contextData } from '../../services/Context';
 import { useContext } from "react";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { show_toast } from '../../utils/Toast';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 const Login = () => {
-    const [formdata, setformdata] = useState({ email: "", password: "" });
-    const { setUser, user } = useContext(contextData);
+  const [formdata, setformdata] = useState({ email: "", password: "" });
+  const { setUser, user } = useContext(contextData);
 
-    // const handleLogin = async (event) => {
-    //     event.preventDefault();
-    //     if (validate()) {
-    //         const loginData = {
-    //             email: username,
-    //             password: password,
-    //         };
-    //         try {
-    //             const response = await fetch("", {
-    //                 method: "POST",
-    //                 headers: {
-    //                     "Content-Type": "application/x-www-form-urlencoded",
-    //                 },
-    //                 body: new URLSearchParams(loginData),
-    //             });
-    
-    //             if (response.ok) {
-    //                 const resp = await response.json();
-    //                 console.log(resp);
-    
-    //                 if (resp.success) {
-    //                     localStorage.setItem("token", resp.token);
-    //                     window.location.href = basePath;
-    //                     alert("Login successful!");
-    //                 } else {
-    //                     alert("Login failed: " + resp.message);
-    //                 }
-    //             } else {
-    //                 console.error("HTTP error:", response.status);
-    //                 alert("Login failed due to server error.");
-    //             }
-    //         } catch (error) {
-    //             console.error("Fetch error:", error);
-    //             alert("Login failed due to: " + error.message);
-    //         }
-    //     }
-    // };
-    
-    const setvaluehandler = (event) => {
-      const { name, value } = event.target;
-      setformdata((prevState) => ({ ...prevState, [name]: value }));
-    };
-    
-      const loginHandler = async () => {
 
-        try {
+  const setvaluehandler = (event) => {
+    const { name, value } = event.target;
+    setformdata((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-          const response = await fetch(loginApi, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formdata),
-          });
-       
-          const data = await response.json();
-          console.log(data,"responseresponseresponseresponseresponse")
-          console.log(data.token, "datadata");
-          if (response.status === 200) {
-            localStorage.setItem("token", data.token);
-            setUser(jwtDecode(data?.token));
-            show_toast("Logged in Successfully", true);
+  const loginHandler = async () => {
+    try {
+      const response = await axios.post(loginApi, formdata, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-            window.location.href = basePath;
-          } else {
-            show_toast("Invalid username or password", false);
-          }
-        } catch (error) {
-          console.error("Login error", error);
-        } 
-      };
-      
+      const data = response.data;
+      console.log(data, "responseresponseresponseresponseresponse");
+      console.log(data.token, "datadata");
+
+      if (response.status === 200) {
+        localStorage.setItem("token", data.token);
+        setUser(jwtDecode(data.token));
+        show_toast("Logged in Successfully", true);
+
+        window.location.href = basePath;
+      } else {
+        show_toast("Invalid username or password", false);
+      }
+    } catch (error) {
+      console.error("Login error", error);
+      show_toast("An error occurred during login", false);
+    }
+  };
+
 
   return (
     <div className="row  justify-content-center">
       <div className="col-lg-6">
-        <Form 
-        onSubmit={(e)=>{e.preventDefault(); loginHandler();}}
-        // onSubmit={handleLogin}
-         className="form-horizontal">
+        <Form
+          onSubmit={(e) => { e.preventDefault(); loginHandler(); }}
+          // onSubmit={handleLogin}
+          className="form-horizontal">
           <div className="card">
             <div className="card-header text-center">
               <h2>User Login</h2>
@@ -113,8 +75,8 @@ const Login = () => {
               <div className="form-group mb-3">
                 <label htmlFor="password">Password <span className="text-danger">*</span></label>
                 <input
-                value={formdata.password}
-                onChange={setvaluehandler}
+                  value={formdata.password}
+                  onChange={setvaluehandler}
                   type="password"
                   id="password"
                   name="password"

@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { show_toast } from "../../utils/Toast";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -8,7 +10,7 @@ const ProductPage = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ const [deleteModal, setDeleteModal] = useState({show: false, productId: null})
   const [form, setForm] = useState({
     productName: "",
     specifications: "",
@@ -18,20 +20,34 @@ const ProductPage = () => {
     category:"",
   });
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`https://aginode.vercel.app/api/productsdelete/${deleteModal.productId}`);
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== deleteModal.productId)
+      );
+      setDeleteModal({ show: false, productId: null });
+      show_toast("Successfully deleted",true)
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    }
+  };
+  
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch("https://aginode.vercel.app/api/getAllproducts");
-      if (!response.ok) {
-        throw new Error("No product Found");
-      }
-      const data = await response.json();
-      setProducts(data.products);
+      const response = await axios.get("https://aginode.vercel.app/api/getAllproducts");
+
+      console.log("responseresponse",response);
+      
+      setProducts(response.data.products);
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -42,23 +58,25 @@ const ProductPage = () => {
     formData.append("originalPrice", form.originalPrice);
     formData.append("currentPrice", form.currentPrice);
     formData.append("category", form.category);
-      for (let i = 0; i < form.photographs.length; i++) {
+    for (let i = 0; i < form.photographs.length; i++) {
       formData.append("photographs", form.photographs[i]);
     }
   
     try {
-      const response = await fetch("https://aginode.vercel.app/api/addproducts", {
-        method: "POST",
-        body: formData, // Send FormData directly
-      });
+      const response = await axios.post(
+        "https://aginode.vercel.app/api/addproducts",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
   
-      if (!response.ok) {
-        throw new Error("Failed to add product");
-      }
-  
-      const newProduct = await response.json();
+      const newProduct = response.data;
       setProducts((prevProducts) => [...prevProducts, newProduct]);
       setProductModal({ show: false });
+      
       setForm({
         productName: "",
         specifications: "",
@@ -67,18 +85,16 @@ const ProductPage = () => {
         category: "",
         photographs: [],
       });
+      fetchProducts();
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || "Failed to add product");
     }
   };
-  
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
@@ -100,11 +116,12 @@ const ProductPage = () => {
                   <table className="table table-hover tbl-product">
                     <thead>
                       <tr>
-                        <th className="text-end">#</th>
+                        <th>#</th>
                         <th>Product Detail</th>
                         <th>Specifications</th>
-                        <th className="text-end">Original Price</th>
-                        <th className="text-end">Current Price</th>
+                        <th >Original Price</th>
+                        <th >Current Price</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -130,6 +147,26 @@ const ProductPage = () => {
                           </td>
                           <td className="text-end">₹{product.originalPrice}</td>
                           <td className="text-end">₹{product.currentPrice}</td>
+                          <td>
+                        <div className="dropdown">
+            <a className="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i className="ti ti-dots-vertical f-18" />
+            </a>
+            <div className="dropdown-menu dropdown-menu-end">
+              <a className="dropdown-item" 
+               onClick={() => handleEdit(item.id)}
+               >Edit</a>
+             
+              <a className="dropdown-item" 
+              onClick={() => setDeleteModal({show: true,productId: product._id})}
+              >Delete</a>
+
+            </div>
+          </div>
+                         
+                         
+                         
+                        </td>
                         </tr>
                       ))}
                     </tbody>
@@ -140,6 +177,40 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+  show={deleteModal.show}
+  onHide={() => setDeleteModal({ show: false, productId: null })}
+  centered
+>
+  <div className="modal-content">
+    <div className="modal-header">
+      <h5 className="modal-title">Confirm Delete</h5>
+      <button
+        type="button"
+        onClick={() => setDeleteModal({ show: false, productId: null })}
+        className="btn-close"
+        aria-label="Close"
+      />
+    </div>
+    <div className="modal-body">
+      <p>Are you sure you want to delete this product?</p>
+    </div>
+    <div className="modal-footer">
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={() => setDeleteModal({ show: false, productId: null })}
+      >
+        Cancel
+      </button>
+      <button type="button" className="btn btn-danger" onClick={handleDelete}>
+        Delete
+      </button>
+    </div>
+  </div>
+</Modal>
+
 
       <Modal
         backdrop="static"
@@ -227,8 +298,9 @@ const ProductPage = () => {
                   required
                 />
               </div>
-              <div className="d-flex justify-content-end gap-2">
+              <div style={{marginTop:'10px'}} className="d-flex  justify-content-end gap-2">
                 <button
+                style={{marginRight:'5px'}}
                   type="button"
                   className="btn btn-danger"
                   onClick={() => setProductModal({ show: false })}
