@@ -1,25 +1,31 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { contextData } from '../../services/Context';
 
 const Header = () => {
+
   let navigate = useNavigate();
   const logoutHandler = () => {
     window.localStorage.clear()
     return navigate("/login")
   }
+
+  const {sidebr,toggleSidebar}=useContext(contextData)
+
+
   return (
     <>
      <header className="pc-header">
     <div className="header-wrapper"> {/* [Mobile Media Block] start */}
       <div className="me-auto pc-mob-drp">
-        <ul className="list-unstyled">
+      <ul className="list-unstyled">
           {/* ======= Menu collapse Icon ===== */}
-          <li className="pc-h-item pc-sidebar-collapse">
-            <a href="#" className="pc-head-link ms-0" id="sidebar-hide">
+          <li onClick={()=>toggleSidebar()}  className="pc-h-item pc-sidebar-collapse">
+            <a  className="pc-head-link ms-0" id="sidebar-hide">
               <i className="ti ti-menu-2" />
             </a>
           </li>
-          <li className="pc-h-item pc-sidebar-popup">
+          <li onClick={()=>toggleSidebar()} className="pc-h-item pc-sidebar-popup">
             <a href="#" className="pc-head-link ms-0" id="mobile-collapse">
               <i className="ti ti-menu-2" />
             </a>
@@ -38,11 +44,7 @@ const Header = () => {
             </div>
           </li>
           <li className="pc-h-item d-none d-md-inline-flex">
-            <form className="form-search">
-              <i className="ph-duotone ph-magnifying-glass icon-search" />
-              <input type="search" className="form-control" placeholder="Search..." />
-              <button className="btn btn-search" style={{padding: 0}}><kbd>ctrl+k</kbd></button>
-            </form>
+           
           </li>
         </ul>
       </div>

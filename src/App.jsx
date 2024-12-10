@@ -19,8 +19,7 @@ function App() {
       <Routes>
       <Route path={basePath + loginPath} element={<Login />}/>
       <Route path={basePath} element={<PrivateRoute> <Layout /> </PrivateRoute>}>
-      <Route path={dashboardPath} element={<Dashboard />}/>
-      <Route path={productPath} element={<ProductPage />} />
+÷      <Route index path={productPath} element={<ProductPage />} />
 
       </Route>
     </Routes>

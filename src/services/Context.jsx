@@ -10,20 +10,25 @@ export const Context_provider = ({ children }) => {
           ? jwtDecode(localStorage.getItem("token"))
           : null
       );
-    const [sidebr, setSidebar] = useState(false)
-    const toggleSidebar = () => {
+      const [sidebr, setSidebar] = useState(false);
 
-        setSidebar(!sidebr)
-    }
+      const toggleSidebar = () => {
+          setSidebar(!sidebr);
+      };
+  
+      const closeSidebar = () => {
+          setSidebar(false);
+      };
+
 
 
 
     return (
         <contextData.Provider value={{
-            toggleSidebar,
-            sidebr,
+           
             user,
-            setUser
+            setUser,
+            sidebr, toggleSidebar, closeSidebar
         }}>
 
             {children}

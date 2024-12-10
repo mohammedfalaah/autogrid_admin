@@ -2058,6 +2058,17 @@ progress {
   color: var(--bs-table-color);
   border-color: var(--bs-table-border-color);
 }
+.pc-sidebar {
+  transition: all 0.3s ease;
+  width: 240px;
+}
+.pc-sidebar.pc-sidebar-hide {
+  transform: translateX(-100%);
+}
+.mob-sidebar-active {
+  transform: translateX(0);
+}
+
 
 .table-secondary {
   --bs-table-color: #212529;
