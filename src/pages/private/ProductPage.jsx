@@ -5,6 +5,7 @@ import { show_toast } from "../../utils/Toast";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
+  const [editModal, setEditModal] = useState([]);
   const [productModal, setProductModal] = useState({
     show: false,
   });
@@ -45,6 +46,38 @@ const ProductPage = () => {
       setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const updateProduct = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("productName", form.productName);
+    formData.append("specifications", form.specifications.split(",").map((spec) => spec.trim()));
+    formData.append("originalPrice", form.originalPrice);
+    formData.append("currentPrice", form.currentPrice);
+    formData.append("category", form.category);
+    for (let i = 0; i < form.photographs.length; i++) {
+      formData.append("photographs", form.photographs[i]);
+    }
+
+    try {
+      await axios.put(
+        `https://aginode.vercel.app/api/updateproduct/${editModal.productId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      show_toast("Product updated successfully", true);
+      setEditModal({ show: false, productId: null });
+      fetchProducts(); // Refresh the product list
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update product");
     }
   };
   
@@ -154,11 +187,11 @@ const ProductPage = () => {
             </a>
             <div className="dropdown-menu dropdown-menu-end">
               <a className="dropdown-item" 
-               onClick={() => handleEdit(item.id)}
+               onClick={() => setEditModal({show: true, productId: product._id})}
                >Edit</a>
              
               <a className="dropdown-item" 
-              onClick={() => setDeleteModal({show: true,productId: product._id})}
+              onClick={() => setDeleteModal({show: true, productId: product._id})}
               >Delete</a>
 
             </div>
@@ -309,6 +342,112 @@ const ProductPage = () => {
                 </button>
                 <button type="submit" className="btn btn-primary">
                   Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        backdrop="static"
+        show={editModal.show}
+        centered
+        onHide={() => setEditModal({ show: false, productId: null })}
+      >
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Edit Product</h5>
+            <button
+              type="button"
+              onClick={() => setEditModal({ show: false, productId: null })}
+              className="btn-close"
+              aria-label="Close"
+            />
+          </div>
+          <div className="modal-body">
+            <form onSubmit={updateProduct}>
+              <div className="mb-3">
+                <label className="form-label">Product Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={form.productName}
+                  onChange={(e) =>
+                    setForm({ ...form, productName: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Category</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={form.category}
+                  onChange={(e) =>
+                    setForm({ ...form, category: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Specifications</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={form.specifications}
+                  onChange={(e) =>
+                    setForm({ ...form, specifications: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Photographs</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  multiple
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      photographs: Array.from(e.target.files),
+                    })
+                  }
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Original Price</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={form.originalPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, originalPrice: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Current Price</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={form.currentPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, currentPrice: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="d-flex justify-content-end gap-2">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setEditModal({ show: false, productId: null })}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Save Changes
                 </button>
               </div>
             </form>

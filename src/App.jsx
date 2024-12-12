@@ -19,10 +19,10 @@ function App() {
       <Routes>
       <Route path={basePath + loginPath} element={<Login />}/>
       <Route path={basePath} element={<PrivateRoute> <Layout /> </PrivateRoute>}>
-÷      <Route index path={productPath} element={<ProductPage />} />
-
+      <Route index element={<Dashboard /> } />
+      <Route path={productPath} element={<ProductPage />} />
       </Route>
-    </Routes>
+      </Routes>
       </Context_provider>
    
 
