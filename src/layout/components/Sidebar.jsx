@@ -1,7 +1,7 @@
 import React, {  useContext, useState } from 'react'
 import { contextData } from '../../services/Context'
 import { Link } from 'react-router-dom'
-import {  productPath } from '../../utils/Constants'
+import {  basePath, dashboardPath, ordersPath, productPath } from '../../utils/Constants'
 
 const Sidebar = () => {
   const { sidebr, toggleSidebar } = useContext(contextData)
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <ul className="pc-navbar">
          
           <li className="pc-item pc-hasmenu">
-            <Link className="pc-link">
+            <Link to={basePath} className="pc-link">
               <span className="pc-micon">
                 <i className="ph-duotone ph-gauge" />
               </span>
@@ -56,6 +56,14 @@ const Sidebar = () => {
                 <i className="ph-duotone ph-shopping-cart" />
               </span>
               <span className="pc-mtext">Products</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></Link>
+         
+          </li>
+          <li className="pc-item pc-hasmenu">
+            <Link  to={ordersPath} className="pc-link">
+              <span className="pc-micon">
+                <i className="ph-duotone ph-shopping-cart" />
+              </span>
+              <span className="pc-mtext">Orders</span><span className="pc-arrow"><i data-feather="chevron-right" /></span></Link>
          
           </li>
         

@@ -1349,6 +1349,19 @@ progress {
     flex: 0 0 auto;
     width: 50%;
   }
+  .centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .centered-card {
+    width: 100%;
+    max-width: 400px; /* Adjust max-width as per your design */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
   .col-md-7 {
     flex: 0 0 auto;
     width: 58.33333333%;
