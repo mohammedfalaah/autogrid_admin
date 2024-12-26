@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true, // needed for the Docker Container port mapping to work
-    port: 3007, 
+    port: 3007, // you can replace this port with any port
   },
-  base: '/autogrid_admin/',
+  base: '/',
 });
