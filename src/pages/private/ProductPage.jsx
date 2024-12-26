@@ -91,7 +91,7 @@ const ProductPage = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("productName", form.productName);
     formData.append(
@@ -128,6 +128,8 @@ const ProductPage = () => {
       fetchProducts();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add product");
+    }  finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -172,11 +174,11 @@ const ProductPage = () => {
                           <td>
                             <div className="row">
                               <div className="col-auto pe-0">
-                                <img
-                                  src={product.photographs?.[0] || ""}
-                                  alt={product.productName}
-                                  className="wid-40 rounded"
-                                />
+                              <img
+  src={`https://node.autogridnumberplate.com${product.photographs?.[0] || ""}`}
+  alt={product.productName}
+  className="wid-40 rounded"
+/>
                               </div>
                               <div className="col">
                                 <h6 className="mb-1">{product.productName}</h6>
@@ -375,9 +377,24 @@ const ProductPage = () => {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
-                  Save
-                </button>
+                <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={loading}
+      >
+        {loading ? (
+          <>
+            <span
+              className="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Saving...
+          </>
+        ) : (
+          "Save"
+        )}
+      </button>
               </div>
             </form>
           </div>
