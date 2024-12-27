@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { contextData } from '../../services/Context';
 
 const Header = () => {
-
+  const { setUser } = useContext(contextData); 
   let navigate = useNavigate();
   const logoutHandler = () => {
     window.localStorage.clear()
+    setUser(null);
     return navigate("/login")
   }
 
