@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { contextData } from '../../services/Context'
 import { Link } from 'react-router-dom'
 import { basePath, dashboardPath, ordersPath, productPath } from '../../utils/Constants'
+import logo from '/AGI-LOGO.png'
 
 const Sidebar = () => {
   const { sidebr, toggleSidebar } = useContext(contextData)
@@ -19,7 +20,7 @@ const Sidebar = () => {
         <div className="navbar-wrapper">
           <div className="m-header">
             <Link to={basePath} className="b-brand text-primary">
-              <img style={{ width: '100px', height: '25px' }} src="/AGI-LOGO.png" alt="logo image" className="logo-lg" />
+              <img style={{ width: '100px', height: '25px' }} src={logo} alt="logo image" className="logo-lg" />
             </Link>
             <h5 onClick={() => toggleSidebar()} style={{ marginLeft: "180px" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x">
