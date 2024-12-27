@@ -10,7 +10,7 @@ export default defineConfig({
   },
   base: '/',
   build: {
-    outDir: '/var/www/html/autogrid_admin/dist', // Specify the output directory
-    emptyOutDir: true, // Clear the dist folder before building
+    outDir: 'dist', // Ensure the output is placed in the 'dist' folder in the project root
+    emptyOutDir: true, // Empty the dist folder before building
   },
 });
