@@ -11,29 +11,14 @@ const Sidebar = () => {
     <>
     
     
-    <nav className={`pc-sidebar ${sidebr ? 'pc-sidebar-hide mob-sidebar-active' : ''}`}>
+    <nav  className={`pc-sidebar ${sidebr?"pc-sidebar-hide mob-sidebar-active":""}`}>
     <div className="navbar-wrapper">
       <div className="m-header">
         <a href="index.html" className="b-brand text-primary">
           <img style={{width:'100px',height:'25px'}}  src="/assets/images/AGI.png" alt="logo image" className="logo-lg" />
         </a>
-        <h5 onClick={toggleSidebar} style={{ marginLeft: '95px' }}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="feather feather-x"
-                        >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </h5>
+        <h5 onClick={()=>toggleSidebar()} style={{marginLeft:"180px"}}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></h5>
+
       </div>
       <div className="navbar-content">
         <ul className="pc-navbar">
