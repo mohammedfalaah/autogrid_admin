@@ -9,4 +9,8 @@ export default defineConfig({
     port: 3007, // you can replace this port with any port
   },
   base: '/',
+  build: {
+    outDir: '/var/www/html/autogrid_admin/dist', // Specify the output directory
+    emptyOutDir: true, // Clear the dist folder before building
+  },
 });
