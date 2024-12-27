@@ -13,12 +13,12 @@ export const Context_provider = ({ children }) => {
       const [sidebr, setSidebar] = useState(false);
 
       const toggleSidebar = () => {
-          setSidebar(!sidebr);
-      };
-  
-      const closeSidebar = () => {
-          setSidebar(false);
-      };
+        setSidebar(!sidebr)
+    }
+    
+    const openSidebar = () => {
+        setSidebar(false)
+    }
 
 
 
@@ -28,7 +28,7 @@ export const Context_provider = ({ children }) => {
            
             user,
             setUser,
-            sidebr, toggleSidebar, closeSidebar
+            sidebr, toggleSidebar, openSidebar,
         }}>
 
             {children}

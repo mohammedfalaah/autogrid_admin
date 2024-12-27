@@ -36,8 +36,8 @@ const Login = () => {
   };
 
   return (
-    <div className="centered-container" >
-      <div className="card centered-card">
+    <div className="centered-container" style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}} >
+      <div className="card centered-card" style={{width:'100%', maxWidth:'400px'}}>
         <div className="card-header text-center ">
 
         <img style={{width:'100px',height:'25px'}}  src="/assets/images/AGI.png" alt="logo image" className="logo-lg" />
