@@ -5,3 +5,4 @@ export const productListApi = "getAllproducts";
 export const productDeleteApi = "productsdelete";
 export const updateProductApi = 'updateproduct';
 export const addProductsApi = 'addproducts';
+export const addBannerApi = 'banners'

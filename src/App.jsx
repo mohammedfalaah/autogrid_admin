@@ -3,12 +3,13 @@ import { Route, Routes } from "react-router-dom"
 import Dashboard from "./pages/private/Dashboard"
 import Layout from "./layout/Layout"
 import ProductPage from "./pages/private/ProductPage"
-import { basePath, dashboardPath, loginPath, ordersPath, productPath } from "./utils/Constants"
+import { bannersPath, basePath, dashboardPath, loginPath, ordersPath, productPath } from "./utils/Constants"
 import Login from "./layout/components/Login"
 import PrivateRoute from "./utils/PrivateRoute"
 import { PublicRoute } from "./utils/PublicRoute"
 import { Context_provider } from "./services/Context"
 import Orders from "./pages/private/Orders"
+import Banners from "./pages/Banners"
 
 
 
@@ -23,6 +24,7 @@ function App() {
       <Route index element={<Dashboard /> } />
       <Route path={productPath} element={<ProductPage />} />
       <Route path={ordersPath} element={<Orders />}/>
+      <Route path={bannersPath} element={<Banners />} />
       </Route>
       </Routes>
       </Context_provider>

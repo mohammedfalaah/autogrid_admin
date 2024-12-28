@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { contextData } from '../../services/Context'
 import { Link } from 'react-router-dom'
-import { basePath, dashboardPath, ordersPath, productPath } from '../../utils/Constants'
+import { bannersPath, basePath, dashboardPath, ordersPath, productPath } from '../../utils/Constants'
 import logo from '/AGI-LOGO.png'
 
 const Sidebar = () => {
@@ -32,7 +32,7 @@ const Sidebar = () => {
           <div className="navbar-content">
             <ul className="pc-navbar">
               <li className="pc-item pc-hasmenu">
-                <Link to={dashboardPath} className="pc-link" onClick={handleMenuClick}>
+                <Link to={basePath} className="pc-link" onClick={handleMenuClick}>
                   <span className="pc-micon">
                     <i className="ph-duotone ph-gauge" />
                   </span>
@@ -56,6 +56,15 @@ const Sidebar = () => {
                     <i className="ph-duotone ph-shopping-bag" />
                   </span>
                   <span className="pc-mtext">Orders</span>
+                  <span className="pc-arrow"><i data-feather="chevron-right" /></span>
+                </Link>
+              </li>
+              <li className="pc-item pc-hasmenu">
+                <Link to={bannersPath} className="pc-link" onClick={handleMenuClick}>
+                  <span className="pc-micon">
+                    <i className="ph-duotone ph-shopping-bag" />
+                  </span>
+                  <span className="pc-mtext">Banners</span>
                   <span className="pc-arrow"><i data-feather="chevron-right" /></span>
                 </Link>
               </li>
