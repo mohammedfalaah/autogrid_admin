@@ -7,8 +7,8 @@ const Banners = () => {
   const [banners, setBanners] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: "", images: "" });
-  const [editMode, setEditMode] = useState(false); // To track if it's edit mode
-  const [currentBannerId, setCurrentBannerId] = useState(null); // Store the ID of the banner being edited
+  const [editMode, setEditMode] = useState(false); 
+  const [currentBannerId, setCurrentBannerId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -113,7 +113,7 @@ const Banners = () => {
                             <div className="row">
                               <div className="col-auto pe-0">
                                 <img
-                                  src={`https://node.autogridnumberplate.com${banner.images?.[0] || ""}`}
+                                  src={`https://node.autogridnumberplate.com/${banner.images?.[0] || ""}`}
                                   alt={banner.title || "Banner Image"}
                                   className="wid-40 rounded"
                                 />

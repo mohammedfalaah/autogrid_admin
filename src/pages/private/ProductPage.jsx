@@ -11,6 +11,8 @@ import {
 import Axioscall from "../../services/Axioscall";
 
 const ProductPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [products, setProducts] = useState([]);
   const [editModal, setEditModal] = useState([]);
   const [productModal, setProductModal] = useState({
@@ -44,19 +46,22 @@ const ProductPage = () => {
     }
   };
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (page = 1) => {
+    setLoading(true);
     try {
-      const response = await Axioscall("get", productListApi);
-
+      const response = await Axioscall("get", `${productListApi}?page=${page}`);
       console.log("responseresponse", response);
-
+  
       setProducts(response.data.products);
+      setCurrentPage(response.data.pagination.currentPage);
+      setTotalPages(response.data.pagination.totalPages);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const updateProduct = async (e) => {
     e.preventDefault();
@@ -133,9 +138,16 @@ const ProductPage = () => {
     }
   };
 
+  const handlePageChange = (page) => {
+  if (page > 0 && page <= totalPages) {
+    setCurrentPage(page);
+  }
+};
+
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProducts(currentPage);
+  }, [currentPage]);
+  
 
   return (
     <>
@@ -230,6 +242,32 @@ const ProductPage = () => {
                       ))}
                     </tbody>
                   </table>
+                  <div className="pagination">
+        <button style={{marginLeft:'10px',marginRight:'10px'}}
+          className="btn btn-secondary"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        {[...Array(totalPages).keys()].map((page) => (
+          <button
+            key={page + 1}
+            className={`btn ${currentPage === page + 1 ? "btn-primary" : "btn-light"}`}
+            onClick={() => handlePageChange(page + 1)}
+          >
+            {page + 1}
+          </button>
+        ))}
+        <button style={{marginLeft:'10px'}}
+          className="btn btn-secondary"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+  
                 </div>
               </div>
             </div>

@@ -62,7 +62,7 @@ const Sidebar = () => {
               <li className="pc-item pc-hasmenu">
                 <Link to={bannersPath} className="pc-link" onClick={handleMenuClick}>
                   <span className="pc-micon">
-                    <i className="ph-duotone ph-shopping-bag" />
+                  <i className="ph-duotone ph-rocket" />
                   </span>
                   <span className="pc-mtext">Banners</span>
                   <span className="pc-arrow"><i data-feather="chevron-right" /></span>
