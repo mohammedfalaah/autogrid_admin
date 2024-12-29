@@ -400,7 +400,7 @@ function layout_sidebar_change(value) {
   } else {
     document.getElementsByTagName('body')[0].setAttribute('data-pc-sidebar-theme', 'light');
     if (document.querySelector('.pc-sidebar .m-header .logo-lg')) {
-      document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('src', '../assets/images/logo-dark.svg');
+      document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('public', '/AGI-LOGO.png');
     }
     var control = document.querySelector('.theme-sidebar-color .btn.active');
     if (control) {
@@ -496,20 +496,20 @@ function layout_change(layout) {
   } else {
     dark_flag = false;
     if (document.querySelector('.pc-sidebar .m-header .logo-lg')) {
-      document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('src', '../assets/images/logo-dark.svg');
+      document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('public', '/AGI-LOGO.png');
     }
     if (document.querySelector('.navbar-brand .logo-lg')) {
-      document.querySelector('.navbar-brand .logo-lg').setAttribute('src', '../assets/images/logo-dark.svg');
+      document.querySelector('.navbar-brand .logo-lg').setAttribute('public', '/AGI-LOGO.png');
     }
 
     if (document.querySelector('.landing-logo')) {
-      document.querySelector('.landing-logo').setAttribute('src', 'assets/images/logo-dark.svg');
+      document.querySelector('.landing-logo').setAttribute('public', '/AGI-LOGO.png');
     }
     if (document.querySelector('.auth-main.v1 .auth-sidefooter')) {
-      document.querySelector('.auth-main.v1 .auth-sidefooter img').setAttribute('src', '../assets/images/logo-dark.svg');
+      document.querySelector('.auth-main.v1 .auth-sidefooter img').setAttribute('public', '/AGI-LOGO.png');
     }
     if (document.querySelector('.footer-top .footer-logo')) {
-      document.querySelector('.footer-top .footer-logo').setAttribute('src', '../assets/images/logo-dark.svg');
+      document.querySelector('.footer-top .footer-logo').setAttribute('public', '/AGI-LOGO.png');
     }
     var control = document.querySelector('.theme-layout .btn.active');
     if (control) {
