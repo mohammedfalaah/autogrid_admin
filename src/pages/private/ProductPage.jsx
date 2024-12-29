@@ -276,7 +276,7 @@ const ProductPage = () => {
                       Next
                     </button>
                   </div> */}
-                  <Pagination className="justify-content-center mt-3">
+                  <Pagination className="justify-content-end mt-3" style={{marginRight:'10px'}}>
                     <Pagination.Prev
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}
