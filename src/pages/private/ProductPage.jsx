@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { show_toast } from "../../utils/Toast";
+import { Pagination } from 'react-bootstrap';
 import {
   addProductsApi,
   productDeleteApi,
@@ -51,7 +52,7 @@ const ProductPage = () => {
     try {
       const response = await Axioscall("get", `${productListApi}?page=${page}`);
       console.log("responseresponse", response);
-  
+
       setProducts(response.data.products);
       setCurrentPage(response.data.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
@@ -61,7 +62,7 @@ const ProductPage = () => {
       setLoading(false);
     }
   };
-  
+
 
   const updateProduct = async (e) => {
     e.preventDefault();
@@ -133,21 +134,21 @@ const ProductPage = () => {
       fetchProducts();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add product");
-    }  finally {
+    } finally {
       setLoading(false); // Stop loading
     }
   };
 
   const handlePageChange = (page) => {
-  if (page > 0 && page <= totalPages) {
-    setCurrentPage(page);
-  }
-};
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   useEffect(() => {
     fetchProducts(currentPage);
   }, [currentPage]);
-  
+
 
   return (
     <>
@@ -186,11 +187,11 @@ const ProductPage = () => {
                           <td>
                             <div className="row">
                               <div className="col-auto pe-0">
-                              <img
-  src={`https://node.autogridnumberplate.com${product.photographs?.[0] || ""}`}
-  alt={product.productName}
-  className="wid-40 rounded"
-/>
+                                <img
+                                  src={`https://node.autogridnumberplate.com${product.photographs?.[0] || ""}`}
+                                  alt={product.productName}
+                                  className="wid-40 rounded"
+                                />
                               </div>
                               <div className="col">
                                 <h6 className="mb-1">{product.productName}</h6>
@@ -242,32 +243,55 @@ const ProductPage = () => {
                       ))}
                     </tbody>
                   </table>
-                  <div className="pagination">
-        <button style={{marginLeft:'10px',marginRight:'10px'}}
-          className="btn btn-secondary"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        {[...Array(totalPages).keys()].map((page) => (
-          <button
-            key={page + 1}
-            className={`btn ${currentPage === page + 1 ? "btn-primary" : "btn-light"}`}
-            onClick={() => handlePageChange(page + 1)}
-          >
-            {page + 1}
-          </button>
-        ))}
-        <button style={{marginLeft:'10px'}}
-          className="btn btn-secondary"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-  
+                  {/* <div className="pagination">
+                    <button style={{ marginLeft: '10px', marginRight: '10px' }}
+                      className="btn btn-secondary"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                    {[...Array(totalPages).keys()].map((page) => (
+                      <button
+                        key={page + 1}
+                        className={`btn ${currentPage === page + 1 ? "btn-primary" : "btn-light"}`}
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                    ))}
+                    <button style={{ marginLeft: '10px' }}
+                      className="btn btn-secondary"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </div> */}
+                  <Pagination className="justify-content-center mt-3">
+                    <Pagination.Prev
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </Pagination.Prev>
+                    {[...Array(totalPages).keys()].map((page) => (
+                      <Pagination.Item
+                        key={page + 1}
+                        active={currentPage === page + 1}
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </Pagination.Item>
+                    ))}
+                    <Pagination.Next
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </Pagination.Next>
+                  </Pagination>
+
                 </div>
               </div>
             </div>
@@ -416,23 +440,23 @@ const ProductPage = () => {
                   Cancel
                 </button>
                 <button
-        type="submit"
-        className="btn btn-primary"
-        disabled={loading}
-      >
-        {loading ? (
-          <>
-            <span
-              className="spinner-border spinner-border-sm me-2"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            Saving...
-          </>
-        ) : (
-          "Save"
-        )}
-      </button>
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Saving...
+                    </>
+                  ) : (
+                    "Save"
+                  )}
+                </button>
               </div>
             </form>
           </div>
