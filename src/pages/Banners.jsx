@@ -35,7 +35,7 @@ const Banners = () => {
 
     try {
       const response = editMode
-        ? await Axioscall("put", `${addBannerApi}/${currentBannerId}`, formData)
+        ? await Axioscall("put",`${addBannerApi}/${currentBannerId}` , formData)
         : await Axioscall("post", addBannerApi, formData);
 
       if (editMode) {
@@ -43,11 +43,14 @@ const Banners = () => {
         setBanners((prevBanners) =>
           prevBanners.map((banner) =>
             banner._id === currentBannerId ? response.data : banner
+        
           )
+          
         );
       } else {
         setBanners((prevProducts) => [...prevProducts, response.data]);
       }
+      await getBanner();
 
       setShowModal(false);
       setForm({ title: "", images: [] });

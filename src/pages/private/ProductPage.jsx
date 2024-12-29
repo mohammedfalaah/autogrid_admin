@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { show_toast } from "../../utils/Toast";
-import { Pagination } from 'react-bootstrap';
+import { Pagination } from "react-bootstrap";
 import {
   addProductsApi,
   productDeleteApi,
@@ -62,7 +62,6 @@ const ProductPage = () => {
       setLoading(false);
     }
   };
-
 
   const updateProduct = async (e) => {
     e.preventDefault();
@@ -149,7 +148,6 @@ const ProductPage = () => {
     fetchProducts(currentPage);
   }, [currentPage]);
 
-
   return (
     <>
       <div>
@@ -188,7 +186,9 @@ const ProductPage = () => {
                             <div className="row">
                               <div className="col-auto pe-0">
                                 <img
-                                  src={`https://node.autogridnumberplate.com${product.photographs?.[0] || ""}`}
+                                  src={`https://node.autogridnumberplate.com${
+                                    product.photographs?.[0] || ""
+                                  }`}
                                   alt={product.productName}
                                   className="wid-40 rounded"
                                 />
@@ -198,7 +198,15 @@ const ProductPage = () => {
                               </div>
                             </div>
                           </td>
-                          <td>{product.specifications?.join(", ") || "N/A"}</td>
+                          <td
+                            style={{
+                              width: "200px",
+                              whiteSpace: "normal",
+                              wordWrap: "break-word",
+                            }}
+                          >
+                            {product.specifications?.join(", ") || "N/A"}
+                          </td>{" "}
                           <td className="text-end">₹{product.originalPrice}</td>
                           <td className="text-end">₹{product.currentPrice}</td>
                           <td>
@@ -291,7 +299,6 @@ const ProductPage = () => {
                       Next
                     </Pagination.Next>
                   </Pagination>
-
                 </div>
               </div>
             </div>
