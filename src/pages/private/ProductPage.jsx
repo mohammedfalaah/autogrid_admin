@@ -15,9 +15,10 @@ const ProductPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [products, setProducts] = useState([]);
-  const [editModal, setEditModal] = useState([]);
-  const [productModal, setProductModal] = useState({
+  const [modalState, setModalState] = useState({
     show: false,
+    mode: "add", 
+    productId: null,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -63,65 +64,18 @@ const ProductPage = () => {
     }
   };
 
-  const updateProduct = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("productName", form.productName);
-    formData.append(
-      "specifications",
-      form.specifications.split(",").map((spec) => spec.trim())
-    );
-    formData.append("originalPrice", form.originalPrice);
-    formData.append("currentPrice", form.currentPrice);
-    formData.append("category", form.category);
-    for (let i = 0; i < form.photographs.length; i++) {
-      formData.append("photographs", form.photographs[i]);
-    }
-
-    try {
-      await Axioscall(
-        "put",
-        `${updateProductApi}/${editModal.productId}`,
-        formData,
-        "header"
-      );
-      show_toast("Product updated successfully", true);
-      setEditModal({ show: false, productId: null });
-      fetchProducts(); // Refresh the product list
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update product");
-    }
-  };
-
-  const addProduct = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("productName", form.productName);
-    formData.append(
-      "specifications",
-      form.specifications.split(",").map((spec) => spec.trim())
-    );
-    formData.append("originalPrice", form.originalPrice);
-    formData.append("currentPrice", form.currentPrice);
-    formData.append("category", form.category);
-    for (let i = 0; i < form.photographs.length; i++) {
-      formData.append("photographs", form.photographs[i]);
-    }
-
-    try {
-      const response = await Axioscall(
-        "post",
-        addProductsApi,
-        formData,
-        "header"
-      );
-
-      const newProduct = response.data;
-      setProducts((prevProducts) => [...prevProducts, newProduct]);
-      setProductModal({ show: false });
-
+  const openModal = (mode, product = null) => {
+    if (mode === "edit" && product) {
+      setForm({
+        productName: product.productName,
+        specifications: product.specifications.join(", "), // Convert array to string
+        originalPrice: product.originalPrice,
+        currentPrice: product.currentPrice,
+        category: product.category,
+        photographs: [],
+      });
+      setModalState({ show: true, mode, productId: product._id });
+    } else {
       setForm({
         productName: "",
         specifications: "",
@@ -130,11 +84,46 @@ const ProductPage = () => {
         category: "",
         photographs: [],
       });
+      setModalState({ show: true, mode });
+    }
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("productName", form.productName);
+    formData.append(
+      "specifications",
+      form.specifications.split(",").map((spec) => spec.trim())
+    );
+    formData.append("originalPrice", form.originalPrice);
+    formData.append("currentPrice", form.currentPrice);
+    formData.append("category", form.category);
+    for (let i = 0; i < form.photographs.length; i++) {
+      formData.append("photographs", form.photographs[i]);
+    }
+
+    try {
+      if (modalState.mode === "add") {
+        await Axioscall("post", addProductsApi, formData, "header");
+        show_toast("Product added successfully", true);
+      } else if (modalState.mode === "edit") {
+        await Axioscall(
+          "put",
+          `${updateProductApi}/${modalState.productId}`,
+          formData,
+          "header"
+        );
+        show_toast("Product updated successfully", true);
+      }
+      setModalState({ show: false, mode: "add", productId: null });
       fetchProducts();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to add product");
+      setError(err.response?.data?.message || "Failed to save product");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -158,7 +147,7 @@ const ProductPage = () => {
               className="text-end p-sm-4 pb-sm-2"
             >
               <button
-                onClick={() => setProductModal({ show: true })}
+                onClick={() => openModal("add")}
                 className="btn btn-primary"
               >
                 <i className="ti ti-plus f-18" /> Add Product
@@ -223,12 +212,7 @@ const ProductPage = () => {
                               <div className="dropdown-menu dropdown-menu-end">
                                 <a
                                   className="dropdown-item"
-                                  onClick={() =>
-                                    setEditModal({
-                                      show: true,
-                                      productId: product._id,
-                                    })
-                                  }
+                                  onClick={() => openModal("edit", product)}
                                 >
                                   Edit
                                 </a>
@@ -345,148 +329,26 @@ const ProductPage = () => {
 
       <Modal
         backdrop="static"
-        show={productModal.show}
+        show={modalState.show}
         centered
-        onHide={() => setProductModal({ show: false })}
+        onHide={() => setModalState({ show: false, mode: "add", productId: null })}
       >
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add Product</h5>
+            <h5 className="modal-title">
+              {modalState.mode === "add" ? "Add Product" : "Edit Product"}
+            </h5>
             <button
               type="button"
-              onClick={() => setProductModal({ show: false })}
+              onClick={() =>
+                setModalState({ show: false, mode: "add", productId: null })
+              }
               className="btn-close"
               aria-label="Close"
             />
           </div>
           <div className="modal-body">
-            <form onSubmit={addProduct}>
-              <div className="mb-3">
-                <label className="form-label">Product Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={form.productName}
-                  onChange={(e) =>
-                    setForm({ ...form, productName: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Category</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={form.category}
-                  onChange={(e) =>
-                    setForm({ ...form, category: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Specifications</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={form.specifications}
-                  onChange={(e) =>
-                    setForm({ ...form, specifications: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Photographs</label>
-                <input
-                  type="file"
-                  className="form-control"
-                  multiple
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      photographs: Array.from(e.target.files),
-                    })
-                  }
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Original Price</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={form.originalPrice}
-                  onChange={(e) =>
-                    setForm({ ...form, originalPrice: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Current Price</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={form.currentPrice}
-                  onChange={(e) =>
-                    setForm({ ...form, currentPrice: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div
-                style={{ marginTop: "10px" }}
-                className="d-flex  justify-content-end gap-2"
-              >
-                <button
-                  style={{ marginRight: "5px" }}
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => setProductModal({ show: false })}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-2"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Saving...
-                    </>
-                  ) : (
-                    "Save"
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </Modal>
-      <Modal
-        backdrop="static"
-        show={editModal.show}
-        centered
-        onHide={() => setEditModal({ show: false, productId: null })}
-      >
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Edit Product</h5>
-            <button
-              type="button"
-              onClick={() => setEditModal({ show: false, productId: null })}
-              className="btn-close"
-              aria-label="Close"
-            />
-          </div>
-          <div className="modal-body">
-            <form onSubmit={updateProduct}>
+            <form onSubmit={handleSave}>
               <div className="mb-3">
                 <label className="form-label">Product Name</label>
                 <input
@@ -563,12 +425,26 @@ const ProductPage = () => {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => setEditModal({ show: false, productId: null })}
+                  onClick={() =>
+                    setModalState({ show: false, mode: "add", productId: null })
+                  }
                 >
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Save Changes
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      Saving...
+                    </>
+                  ) : modalState.mode === "add" ? (
+                    "Add Product"
+                  ) : (
+                    "Update Product"
+                  )}
                 </button>
               </div>
             </form>
