@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import Axioscall from '../../services/Axioscall';
-import { addCategoryApi, getCategoryApi, addSubCategoryApi } from '../../services/BaseUrl';
+import { addCategoryApi, getCategoryApi, addSubCategoryApi, deleteCategoryApi } from '../../services/BaseUrl';
 import { show_toast } from '../../utils/Toast';
 
 const Category = () => {
@@ -32,14 +32,13 @@ const Category = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const response = await Axioscall('post', addCategoryApi, form, 'header');
       if (response?.data) {
         show_toast(response.data.message, true);
         setForm({ category: '' });
         setShowModal(false);
-        getCategory(); // Refresh categories
+        getCategory();
       } else {
         show_toast('Failed to add category!', false);
       }
@@ -72,6 +71,22 @@ const Category = () => {
     }
   };
   
+  const deleteCategory = async (categoryId) => {
+    setLoading(true);
+    try {
+      const response = await Axioscall('delete',`${deleteCategoryApi}/${categoryId}`, '', 'header');
+      if (response?.data) {
+        show_toast(response.data.message, true);
+        getCategory(); 
+      } else {
+        show_toast('Failed to delete category!', false);
+      }
+    } catch (error) {
+      show_toast(error.response?.data?.message || 'Something went wrong!', false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getCategory();
@@ -123,11 +138,11 @@ const Category = () => {
                               Add Sub Category
                             </button>
                             <button
-                              className="btn btn-danger btn-sm"
-                              onClick={() => console.log('Delete', cat._id)}
-                            >
-                              Remove
-                            </button>
+          className="btn btn-danger btn-sm"
+          onClick={() => deleteCategory(cat._id)}
+        >
+          Remove
+        </button>
                           </td>
                         </tr>
                       ))}
