@@ -4,4 +4,5 @@ export const productPath="/products"
 export const registerPath="/register"
 export const loginPath="/login"
 export const ordersPath='/orders'
-export const bannersPath = 'banner'
+export const bannersPath = '/banner'
+export const categoryPath = '/category'

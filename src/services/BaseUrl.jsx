@@ -6,3 +6,6 @@ export const productDeleteApi = "productsdelete";
 export const updateProductApi = 'updateproduct';
 export const addProductsApi = 'addproducts';
 export const addBannerApi = 'banners'
+export const addCategoryApi = 'addCategory'
+export const getCategoryApi = 'getCategories'
+export const addSubCategoryApi = 'subcategories'

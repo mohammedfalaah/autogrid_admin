@@ -68,7 +68,7 @@ const ProductPage = () => {
     if (mode === "edit" && product) {
       setForm({
         productName: product.productName,
-        specifications: product.specifications.join(", "), // Convert array to string
+        specifications: product.specifications.join(", "), 
         originalPrice: product.originalPrice,
         currentPrice: product.currentPrice,
         category: product.category,
