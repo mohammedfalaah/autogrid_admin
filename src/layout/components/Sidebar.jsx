@@ -60,7 +60,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              <li className="pc-item pc-hasmenu">
+              {/* <li className="pc-item pc-hasmenu">
                 <Link to={ordersPath} className="pc-link" onClick={handleMenuClick}>
                   <span className="pc-micon">
                     <i className="ph-duotone ph-shopping-bag" />
@@ -68,7 +68,7 @@ const Sidebar = () => {
                   <span className="pc-mtext">Orders</span>
                   <span className="pc-arrow"><i data-feather="chevron-right" /></span>
                 </Link>
-              </li>
+              </li> */}
               <li className="pc-item pc-hasmenu">
                 <Link to={bannersPath} className="pc-link" onClick={handleMenuClick}>
                   <span className="pc-micon">
