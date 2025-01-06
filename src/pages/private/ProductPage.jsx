@@ -117,6 +117,7 @@ const ProductPage = () => {
         originalPrice: "",
         currentPrice: "",
         category: "",
+        subcategory:"",
         photographs: [],
       });
       setModalState({ show: true, mode });
@@ -136,6 +137,7 @@ const ProductPage = () => {
     formData.append("originalPrice", form.originalPrice);
     formData.append("currentPrice", form.currentPrice);
     formData.append("category", form.category);
+    formData.append("subcategory",form.subcategory);
     for (let i = 0; i < form.photographs.length; i++) {
       formData.append("photographs", form.photographs[i]);
     }
