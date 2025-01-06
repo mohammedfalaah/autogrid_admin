@@ -138,11 +138,10 @@ const Category = () => {
                               Add Sub Category
                             </button>
                             <button
-          className="btn btn-danger btn-sm"
-          onClick={() => deleteCategory(cat._id)}
-        >
-          Remove
-        </button>
+                             className="btn btn-danger btn-sm"
+                             onClick={() => deleteCategory(cat._id)}>
+                              Remove
+                            </button>
                           </td>
                         </tr>
                       ))}

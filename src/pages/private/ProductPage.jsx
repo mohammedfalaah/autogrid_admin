@@ -5,6 +5,7 @@ import { show_toast } from "../../utils/Toast";
 import { Pagination } from "react-bootstrap";
 import {
   addProductsApi,
+  getCategoryApi,
   productDeleteApi,
   productListApi,
   updateProductApi,
@@ -33,7 +34,29 @@ const ProductPage = () => {
     currentPrice: "",
     photographs: "",
     category: "",
+    subcategory: "",
   });
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+
+  const getCategory = async () => {
+    setLoading(true);
+    try {
+      const response = await Axioscall('get', getCategoryApi, '', 'header');
+      console.log(response,"catogories and sub categories");
+      
+      if (response?.data) {
+        setCategories(response.data);
+      } else {
+        show_toast('Failed to fetch categories!', false);
+      }
+    } catch (error) {
+      console.error(error);
+      show_toast('Error fetching categories!', false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -62,6 +85,18 @@ const ProductPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setForm({ ...form, category: selectedCategory, subcategory: "" });
+
+    const foundCategory = categories.find(cat => cat.category === selectedCategory);
+    setSubcategories(foundCategory ? foundCategory.subcategories : []);
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setForm({ ...form, subcategory: e.target.value });
   };
 
   const openModal = (mode, product = null) => {
@@ -136,6 +171,11 @@ const ProductPage = () => {
   useEffect(() => {
     fetchProducts(currentPage);
   }, [currentPage]);
+
+  useEffect(() => {
+    getCategory();
+  }, [])
+  
 
   return (
     <>
@@ -362,16 +402,39 @@ const ProductPage = () => {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Category</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={form.category}
-                  onChange={(e) =>
-                    setForm({ ...form, category: e.target.value })
-                  }
-                />
-              </div>
+        <label className="form-label">Category</label>
+        <select
+          className="form-control"
+          value={form.category}
+          onChange={handleCategoryChange}
+        >
+          <option value="" disabled>Select Category</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat.category}>
+              {cat.category}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Subcategory</label>
+        <select
+          className="form-control"
+          value={form.subcategory}
+          onChange={handleSubcategoryChange}
+          disabled={!subcategories.length}
+        >
+          <option value="" disabled>
+            {subcategories.length ? "Select Subcategory" : "No Subcategories Available"}
+          </option>
+          {subcategories.map((subcat, index) => (
+            <option key={index} value={subcat}>
+              {subcat}
+            </option>
+          ))}
+        </select>
+      </div>
               <div className="mb-3">
                 <label className="form-label">Specifications</label>
                 <input
