@@ -204,6 +204,8 @@ const ProductPage = () => {
                         <th>#</th>
                         <th>Product Detail</th>
                         <th>Specifications</th>
+                        <th>Category</th>
+                        <th>Sub Category</th>
                         <th>Original Price</th>
                         <th>Current Price</th>
                         <th>Action</th>
@@ -238,8 +240,10 @@ const ProductPage = () => {
                           >
                             {product.specifications?.join(", ") || "N/A"}
                           </td>{" "}
-                          <td className="text-end">₹{product.originalPrice}</td>
-                          <td className="text-end">₹{product.currentPrice}</td>
+                          <td>{product.category}</td>
+                          <td>{product.subcategory}</td>
+                          <td className="text-center">₹{product.originalPrice}</td>
+                          <td className="text-center">₹{product.currentPrice}</td>
                           <td>
                             <div className="dropdown">
                               <a

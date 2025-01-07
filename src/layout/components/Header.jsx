@@ -57,8 +57,8 @@ const Header = () => {
 
 
 
-              <li className="dropdown pc-h-item header-user-profile">
-                <a onClick={logoutHandler} className="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+              <li className=" pc-h-item header-user-profile">
+                <a onClick={logoutHandler} >
                   Logout            </a>
 
               </li>
