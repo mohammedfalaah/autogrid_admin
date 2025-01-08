@@ -107,6 +107,7 @@ const ProductPage = () => {
         originalPrice: product.originalPrice,
         currentPrice: product.currentPrice,
         category: product.category,
+        subcategory: product.subcategory,
         photographs: [],
       });
       setModalState({ show: true, mode, productId: product._id });
@@ -281,31 +282,7 @@ const ProductPage = () => {
                       ))}
                     </tbody>
                   </table>
-                  {/* <div className="pagination">
-                    <button style={{ marginLeft: '10px', marginRight: '10px' }}
-                      className="btn btn-secondary"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </button>
-                    {[...Array(totalPages).keys()].map((page) => (
-                      <button
-                        key={page + 1}
-                        className={`btn ${currentPage === page + 1 ? "btn-primary" : "btn-light"}`}
-                        onClick={() => handlePageChange(page + 1)}
-                      >
-                        {page + 1}
-                      </button>
-                    ))}
-                    <button style={{ marginLeft: '10px' }}
-                      className="btn btn-secondary"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      Next
-                    </button>
-                  </div> */}
+                 
                   <Pagination className="justify-content-end mt-3" style={{marginRight:'10px'}}>
                     <Pagination.Prev
                       onClick={() => handlePageChange(currentPage - 1)}
@@ -429,7 +406,7 @@ const ProductPage = () => {
           className="form-control"
           value={form.subcategory}
           onChange={handleSubcategoryChange}
-          disabled={!subcategories.length}
+          // disabled={!subcategories.length}
         >
           <option value="" disabled>
             {subcategories.length ? "Select Subcategory" : "No Subcategories Available"}
