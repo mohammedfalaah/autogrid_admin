@@ -6,3 +6,4 @@ export const loginPath="/login"
 export const ordersPath='/orders'
 export const bannersPath = '/banner'
 export const categoryPath = '/category'
+export const usersPath ='/users'
