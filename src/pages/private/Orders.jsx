@@ -28,21 +28,20 @@ const Orders = () => {
                 <div className="col-sm-12">
                     <div className="card table-card">
                         <div className="card-body">
-                            <h5 style={{padding:'10px'}} className="card-title">Orders</h5>
+                            <h5 style={{ padding: '10px' }} className="card-title">Orders</h5>
                             <div className="table-responsive">
                                 <table className="table table-hover tbl-product">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Order ID</th>
+                                            <th style={{width:'20px'}}>Product Name</th>
                                             <th>Total Amount</th>
                                             <th>Payment Status</th>
                                             <th>Status</th>
                                             <th>Created At</th>
-                                            <th>Customer Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>City</th>
+                                            <th>Customer Details</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,19 +50,34 @@ const Orders = () => {
                                                 <tr key={order._id}>
                                                     <td>{index + 1}</td>
                                                     <td>{order.orderId}</td>
+                                                    <td style={{whiteSpace:'normal'}}>
+                                                        {order.products && order.products.length > 0
+                                                            ? order.products.map((product) => 
+                                                                product?.productId?.productName || "N/A"
+                                                            ).join(", ")
+                                                            : "N/A"}
+                                                    </td>
                                                     <td>{order.totalAmount}</td>
                                                     <td>{order.paymentStatus}</td>
                                                     <td>{order.status}</td>
                                                     <td>{new Date(order.createdAt).toLocaleString()}</td>
-                                                    <td>{order.address?.name}</td>
-                                                    <td>{order.address?.email}</td>
-                                                    <td>{order.address?.phone}</td>
-                                                    <td>{order.address?.city}</td>
+                                                    <td>
+                                                        {order.address ? (
+                                                            <>
+                                                                <strong>{order.address.name}</strong> <br />
+                                                                {order.address.email} <br />
+                                                                {order.address.phone} <br />
+                                                                {order.address.street}, {order.address.city}, <br />
+                                                                {order.address.state} - {order.address.postalCode}
+                                                            </>
+                                                        ) : "N/A"}
+                                                    </td>
+                                                   
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="10" className="text-center">
+                                                <td colSpan="8" className="text-center">
                                                     No orders available.
                                                 </td>
                                             </tr>
