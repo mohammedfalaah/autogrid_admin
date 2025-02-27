@@ -15,7 +15,7 @@ const Banners = () => {
   const getBanner = async () => {
     setLoading(true);
     try {
-      const response = await Axioscall("get", addBannerApi);
+      const response = await Axioscall("get", addBannerApi,"","header");
       setBanners(response.data.banners);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -35,8 +35,8 @@ const Banners = () => {
 
     try {
       const response = editMode
-        ? await Axioscall("put",`${addBannerApi}/${currentBannerId}` , formData)
-        : await Axioscall("post", addBannerApi, formData);
+        ? await Axioscall("put",`${addBannerApi}/${currentBannerId}` , formData,"header")
+        : await Axioscall("post", addBannerApi, formData,"header");
 
       if (editMode) {
         // Update the specific banner in the state
@@ -73,7 +73,7 @@ const Banners = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await Axioscall("delete", `${addBannerApi}/${id}`);
+      await Axioscall("delete", `${addBannerApi}/${id}`,"","header");
       setBanners((prevBanners) => prevBanners.filter((banner) => banner._id !== id));
     } catch (err) {
       setError(err.response?.data?.message || err.message);

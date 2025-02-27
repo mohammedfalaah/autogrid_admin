@@ -60,7 +60,7 @@ const ProductPage = () => {
 
   const handleDelete = async () => {
     try {
-      await Axioscall("delete", `${productDeleteApi}/${deleteModal.productId}`);
+      await Axioscall("delete", `${productDeleteApi}/${deleteModal.productId}`,"","header");
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== deleteModal.productId)
       );
@@ -74,7 +74,7 @@ const ProductPage = () => {
   const fetchProducts = async (page = 1) => {
     setLoading(true);
     try {
-      const response = await Axioscall("get", `${productListApi}?page=${page}`);
+      const response = await Axioscall("get", `${productListApi}?page=${page}`,"",'header');
       console.log("responseresponse", response);
 
       setProducts(response.data.products);
