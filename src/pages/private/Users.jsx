@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Axioscall from '../../services/Axioscall'
-import { getUsersApi } from '../../services/BaseUrl'
+import { getUsersApi, userDelete } from '../../services/BaseUrl'
 
 const Users = () => {
     const [user,setUser] = useState([])
+    console.log(user,"==========");
+    
 
     const getUsers = async () => {
         try {
@@ -16,6 +18,23 @@ const Users = () => {
             
         }
     }
+
+    const deleteUser = async (userId) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
+        try {
+            const response = await Axioscall("DELETE", `${userDelete}/${userId}`, "", "header");
+            
+            if (response?.status === 200) {  // Check if delete was successful
+                setUser(prevUsers => prevUsers.filter(user => user._id !== userId));  // Remove from state
+            } else {
+                console.error("Failed to delete user:", response);
+            }
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    };
+
+    
     useEffect(() => {
         getUsers();
     }, [])
@@ -47,6 +66,14 @@ const Users = () => {
                                                 <td>{user.name}</td>
                                                 <td>{user.email}</td>
                                                 <td>{new Date(user.createdAt).toLocaleString()}</td>
+                                                <td>
+                                                        <button 
+                                                            className="btn btn-danger btn-sm" 
+                                                            onClick={() => deleteUser(user._id)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
 
                                             </tr>
                                         ))
