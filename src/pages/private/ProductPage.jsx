@@ -18,7 +18,7 @@ const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [modalState, setModalState] = useState({
     show: false,
-    mode: "add", 
+    mode: "add",
     productId: null,
   });
   const [loading, setLoading] = useState(true);
@@ -42,17 +42,17 @@ const ProductPage = () => {
   const getCategory = async () => {
     setLoading(true);
     try {
-      const response = await Axioscall('get', getCategoryApi, '', 'header');
-      console.log(response,"catogories and sub categories");
-      
+      const response = await Axioscall("get", getCategoryApi, "", "header");
+      console.log(response, "catogories and sub categories");
+
       if (response?.data) {
         setCategories(response.data);
       } else {
-        show_toast('Failed to fetch categories!', false);
+        show_toast("Failed to fetch categories!", false);
       }
     } catch (error) {
       console.error(error);
-      show_toast('Error fetching categories!', false);
+      show_toast("Error fetching categories!", false);
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,12 @@ const ProductPage = () => {
 
   const handleDelete = async () => {
     try {
-      await Axioscall("delete", `${productDeleteApi}/${deleteModal.productId}`,"","header");
+      await Axioscall(
+        "delete",
+        `${productDeleteApi}/${deleteModal.productId}`,
+        "",
+        "header"
+      );
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== deleteModal.productId)
       );
@@ -74,7 +79,12 @@ const ProductPage = () => {
   const fetchProducts = async (page = 1) => {
     setLoading(true);
     try {
-      const response = await Axioscall("get", `${productListApi}?page=${page}`,"",'header');
+      const response = await Axioscall(
+        "get",
+        `${productListApi}?page=${page}`,
+        "",
+        "header"
+      );
       console.log("responseresponse", response);
 
       setProducts(response.data.products);
@@ -91,7 +101,9 @@ const ProductPage = () => {
     const selectedCategory = e.target.value;
     setForm({ ...form, category: selectedCategory, subcategory: "" });
 
-    const foundCategory = categories.find(cat => cat.category === selectedCategory);
+    const foundCategory = categories.find(
+      (cat) => cat.category === selectedCategory
+    );
     setSubcategories(foundCategory ? foundCategory.subcategories : []);
   };
 
@@ -103,7 +115,7 @@ const ProductPage = () => {
     if (mode === "edit" && product) {
       setForm({
         productName: product.productName,
-        specifications: product.specifications.join(", "), 
+        specifications: product.specifications.join(", "),
         originalPrice: product.originalPrice,
         currentPrice: product.currentPrice,
         category: product.category,
@@ -118,7 +130,7 @@ const ProductPage = () => {
         originalPrice: "",
         currentPrice: "",
         category: "",
-        subcategory:"",
+        subcategory: "",
         photographs: [],
       });
       setModalState({ show: true, mode });
@@ -138,7 +150,7 @@ const ProductPage = () => {
     formData.append("originalPrice", form.originalPrice);
     formData.append("currentPrice", form.currentPrice);
     formData.append("category", form.category);
-    formData.append("subcategory",form.subcategory);
+    formData.append("subcategory", form.subcategory);
     for (let i = 0; i < form.photographs.length; i++) {
       formData.append("photographs", form.photographs[i]);
     }
@@ -177,8 +189,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     getCategory();
-  }, [])
-  
+  }, []);
 
   return (
     <>
@@ -243,8 +254,12 @@ const ProductPage = () => {
                           </td>{" "}
                           <td>{product.category}</td>
                           <td>{product.subcategory}</td>
-                          <td className="text-center">₹{product.originalPrice}</td>
-                          <td className="text-center">₹{product.currentPrice}</td>
+                          <td className="text-center">
+                            ₹{product.originalPrice}
+                          </td>
+                          <td className="text-center">
+                            ₹{product.currentPrice}
+                          </td>
                           <td>
                             <div className="dropdown">
                               <a
@@ -282,8 +297,11 @@ const ProductPage = () => {
                       ))}
                     </tbody>
                   </table>
-                 
-                  <Pagination className="justify-content-end mt-3" style={{marginRight:'10px'}}>
+
+                  <Pagination
+                    className="justify-content-end mt-3"
+                    style={{ marginRight: "10px" }}
+                  >
                     <Pagination.Prev
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}
@@ -354,7 +372,9 @@ const ProductPage = () => {
         backdrop="static"
         show={modalState.show}
         centered
-        onHide={() => setModalState({ show: false, mode: "add", productId: null })}
+        onHide={() =>
+          setModalState({ show: false, mode: "add", productId: null })
+        }
       >
         <div className="modal-content">
           <div className="modal-header">
@@ -385,39 +405,43 @@ const ProductPage = () => {
                 />
               </div>
               <div className="mb-3">
-        <label className="form-label">Category</label>
-        <select
-          className="form-control"
-          value={form.category}
-          onChange={handleCategoryChange}
-        >
-          <option value="" disabled>Select Category</option>
-          {categories.map((cat) => (
-            <option key={cat._id} value={cat.category}>
-              {cat.category}
-            </option>
-          ))}
-        </select>
-      </div>
+                <label className="form-label">Category</label>
+                <select
+                  className="form-control"
+                  value={form.category}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  {categories.map((cat) => (
+                    <option key={cat._id} value={cat.category}>
+                      {cat.category}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-      <div className="mb-3">
-        <label className="form-label">Subcategory</label>
-        <select
-          className="form-control"
-          value={form.subcategory}
-          onChange={handleSubcategoryChange}
-          // disabled={!subcategories.length}
-        >
-          <option value="" disabled>
-            {subcategories.length ? "Select Subcategory" : "No Subcategories Available"}
-          </option>
-          {subcategories.map((subcat, index) => (
-            <option key={index} value={subcat}>
-              {subcat}
-            </option>
-          ))}
-        </select>
-      </div>
+              <div className="mb-3">
+                <label className="form-label">Subcategory</label>
+                <select
+                  className="form-control"
+                  value={form.subcategory}
+                  onChange={handleSubcategoryChange}
+                  // disabled={!subcategories.length}
+                >
+                  <option value="" disabled>
+                    {subcategories.length
+                      ? "Select Subcategory"
+                      : "No Subcategories Available"}
+                  </option>
+                  {subcategories.map((subcat, index) => (
+                    <option key={index} value={subcat}>
+                      {subcat}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mb-3">
                 <label className="form-label">Specifications</label>
                 <input
