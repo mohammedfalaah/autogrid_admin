@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import Axioscall from '../../services/Axioscall';
-import { addCategoryApi, getCategoryApi, addSubCategoryApi, deleteCategoryApi } from '../../services/BaseUrl';
-import { show_toast } from '../../utils/Toast';
+import React, { useEffect, useState } from "react";
+import { Modal } from "react-bootstrap";
+import Axioscall from "../../services/Axioscall";
+import {
+  addCategoryApi,
+  getCategoryApi,
+  addSubCategoryApi,
+  deleteCategoryApi,
+} from "../../services/BaseUrl";
+import { show_toast } from "../../utils/Toast";
 
 const Category = () => {
   const [showModal, setShowModal] = useState(false);
   const [showSubcategoryModal, setShowSubcategoryModal] = useState(false);
   const [form, setForm] = useState({ category: "" });
-  const [subcategoryForm, setSubcategoryForm] = useState({ subcategory: "", categoryId: "" });
+  const [subcategoryForm, setSubcategoryForm] = useState({
+    subcategory: "",
+    categoryId: "",
+  });
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const getCategory = async () => {
     setLoading(true);
     try {
-      const response = await Axioscall('get', getCategoryApi, '', 'header');
+      const response = await Axioscall("get", getCategoryApi, "", "header");
       if (response?.data) {
         setCategories(response.data);
       } else {
-        show_toast('Failed to fetch categories!', false);
+        show_toast("Failed to fetch categories!", false);
       }
     } catch (error) {
       console.error(error);
-      show_toast('Error fetching categories!', false);
+      show_toast("Error fetching categories!", false);
     } finally {
       setLoading(false);
     }
@@ -33,17 +41,20 @@ const Category = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Axioscall('post', addCategoryApi, form, 'header');
+      const response = await Axioscall("post", addCategoryApi, form, "header");
       if (response?.data) {
         show_toast(response.data.message, true);
-        setForm({ category: '' });
+        setForm({ category: "" });
         setShowModal(false);
         getCategory();
       } else {
-        show_toast('Failed to add category!', false);
+        show_toast("Failed to add category!", false);
       }
     } catch (error) {
-      show_toast(error.response?.data?.message || 'Something went wrong!', false);
+      show_toast(
+        error.response?.data?.message || "Something went wrong!",
+        false
+      );
     } finally {
       setLoading(false);
     }
@@ -52,37 +63,53 @@ const Category = () => {
   const handleAddSubcategory = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
-      const response = await Axioscall('post',`${addSubCategoryApi}/${subcategoryForm.categoryId}`,{ subcategory: subcategoryForm.subcategory },'header');
-  
+      const response = await Axioscall(
+        "post",
+        `${addSubCategoryApi}/${subcategoryForm.categoryId}`,
+        { subcategory: subcategoryForm.subcategory },
+        "header"
+      );
+
       if (response?.data) {
         show_toast(response.data.message, true);
         setSubcategoryForm({ subcategory: "", categoryId: "" });
         setShowSubcategoryModal(false);
         getCategory(); // Refresh categories
       } else {
-        show_toast('Failed to add subcategory!', false);
+        show_toast("Failed to add subcategory!", false);
       }
     } catch (error) {
-      show_toast(error.response?.data?.message || 'Something went wrong!', false);
+      show_toast(
+        error.response?.data?.message || "Something went wrong!",
+        false
+      );
     } finally {
       setLoading(false);
     }
   };
-  
+
   const deleteCategory = async (categoryId) => {
     setLoading(true);
     try {
-      const response = await Axioscall('delete',`${deleteCategoryApi}/${categoryId}`, '', 'header');
+      const response = await Axioscall(
+        "delete",
+        `${deleteCategoryApi}/${categoryId}`,
+        "",
+        "header"
+      );
       if (response?.data) {
         show_toast(response.data.message, true);
-        getCategory(); 
+        getCategory();
       } else {
-        show_toast('Failed to delete category!', false);
+        show_toast("Failed to delete category!", false);
       }
     } catch (error) {
-      show_toast(error.response?.data?.message || 'Something went wrong!', false);
+      show_toast(
+        error.response?.data?.message || "Something went wrong!",
+        false
+      );
     } finally {
       setLoading(false);
     }
@@ -125,21 +152,25 @@ const Category = () => {
                         <tr key={cat._id}>
                           <td>{index + 1}</td>
                           <td>{cat.category}</td>
-                          <td>{cat.subcategories.join(', ') || 'None'}</td>
+                          <td>{cat.subcategories.join(", ") || "None"}</td>
                           <td>
                             <button
-                              style={{ marginRight: '10px' }}
+                              style={{ marginRight: "10px" }}
                               className="btn btn-success btn-sm"
                               onClick={() => {
-                                setSubcategoryForm({ ...subcategoryForm, categoryId: cat._id });
+                                setSubcategoryForm({
+                                  ...subcategoryForm,
+                                  categoryId: cat._id,
+                                });
                                 setShowSubcategoryModal(true);
                               }}
                             >
                               Add Sub Category
                             </button>
                             <button
-                             className="btn btn-danger btn-sm"
-                             onClick={() => deleteCategory(cat._id)}>
+                              className="btn btn-danger btn-sm"
+                              onClick={() => deleteCategory(cat._id)}
+                            >
                               Remove
                             </button>
                           </td>
@@ -167,7 +198,7 @@ const Category = () => {
           centered
           onHide={() => {
             setShowModal(false);
-            setForm({ category: '' });
+            setForm({ category: "" });
           }}
         >
           <div className="modal-content">
@@ -177,7 +208,7 @@ const Category = () => {
                 type="button"
                 onClick={() => {
                   setShowModal(false);
-                  setForm({ category: '' });
+                  setForm({ category: "" });
                 }}
                 className="btn-close"
                 aria-label="close"
@@ -206,14 +237,14 @@ const Category = () => {
                   className="btn btn-primary"
                   disabled={loading}
                 >
-                  {loading ? 'Saving...' : 'Save'}
+                  {loading ? "Saving..." : "Save"}
                 </button>
                 <button
                   type="button"
                   className="btn btn-secondary ms-2"
                   onClick={() => {
                     setShowModal(false);
-                    setForm({ category: '' });
+                    setForm({ category: "" });
                   }}
                 >
                   Cancel
@@ -269,7 +300,7 @@ const Category = () => {
                   className="btn btn-primary"
                   disabled={loading}
                 >
-                  {loading ? 'Saving...' : 'Save'}
+                  {loading ? "Saving..." : "Save"}
                 </button>
                 <button
                   type="button"

@@ -7,7 +7,7 @@ const Banners = () => {
   const [banners, setBanners] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: "", images: "" });
-  const [editMode, setEditMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false);
   const [currentBannerId, setCurrentBannerId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ const Banners = () => {
   const getBanner = async () => {
     setLoading(true);
     try {
-      const response = await Axioscall("get", addBannerApi,"","header");
+      const response = await Axioscall("get", addBannerApi, "", "header");
       setBanners(response.data.banners);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -35,17 +35,20 @@ const Banners = () => {
 
     try {
       const response = editMode
-        ? await Axioscall("put",`${addBannerApi}/${currentBannerId}` , formData,"header")
-        : await Axioscall("post", addBannerApi, formData,"header");
+        ? await Axioscall(
+            "put",
+            `${addBannerApi}/${currentBannerId}`,
+            formData,
+            "header"
+          )
+        : await Axioscall("post", addBannerApi, formData, "header");
 
       if (editMode) {
         // Update the specific banner in the state
         setBanners((prevBanners) =>
           prevBanners.map((banner) =>
             banner._id === currentBannerId ? response.data : banner
-        
           )
-          
         );
       } else {
         setBanners((prevProducts) => [...prevProducts, response.data]);
@@ -73,8 +76,10 @@ const Banners = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await Axioscall("delete", `${addBannerApi}/${id}`,"","header");
-      setBanners((prevBanners) => prevBanners.filter((banner) => banner._id !== id));
+      await Axioscall("delete", `${addBannerApi}/${id}`, "", "header");
+      setBanners((prevBanners) =>
+        prevBanners.filter((banner) => banner._id !== id)
+      );
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -91,8 +96,14 @@ const Banners = () => {
       <div>
         <div className="row">
           <div className="col-sm-12">
-            <div className="text-end p-sm-4 pb-sm-2" style={{ marginBottom: "10px" }}>
-              <button onClick={() => setShowModal(true)} className="btn btn-primary">
+            <div
+              className="text-end p-sm-4 pb-sm-2"
+              style={{ marginBottom: "10px" }}
+            >
+              <button
+                onClick={() => setShowModal(true)}
+                className="btn btn-primary"
+              >
                 <i className="ti ti-plus f-18" /> Add Banner
               </button>
             </div>
@@ -116,7 +127,9 @@ const Banners = () => {
                             <div className="row">
                               <div className="col-auto pe-0">
                                 <img
-                                  src={`https://node.autogridnumberplate.com/${banner.images?.[0] || ""}`}
+                                  src={`https://node.autogridnumberplate.com/${
+                                    banner.images?.[0] || ""
+                                  }`}
                                   alt={banner.title || "Banner Image"}
                                   className="wid-40 rounded"
                                 />
@@ -179,7 +192,9 @@ const Banners = () => {
         >
           <div className="modal-content">
             <div className="modal-header">
-              <h2 className="modal-title">{editMode ? "Edit Banner" : "Add Banner"}</h2>
+              <h2 className="modal-title">
+                {editMode ? "Edit Banner" : "Add Banner"}
+              </h2>
               <button
                 type="button"
                 onClick={() => {
