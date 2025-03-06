@@ -63,8 +63,12 @@ const Orders = () => {
                                         <h6>{item.productId.productName}</h6>
                                         <p>Amount: ₹{item.productId.currentPrice}</p>
                                         <p>Quantity: {item.quantity}</p>
-                                        <p>Vehicle Number: {item.vehicleNumber}</p>
-                                        <p>Vehicle Model: {item.vehicleModel}</p>
+                                        {item.productId.category !== "ACCESSORIES" && (
+                                            <>
+                                                <p>Vehicle Number: {item.vehicleNumber}</p>
+                                                <p>Vehicle Model: {item.vehicleModel}</p>
+                                            </>
+                                        )}
                                         
                                     </div>
                                 </div>
