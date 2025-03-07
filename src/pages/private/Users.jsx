@@ -4,7 +4,6 @@ import { getUsersApi, userDelete } from "../../services/BaseUrl";
 
 const Users = () => {
   const [user, setUser] = useState([]);
-  console.log(user, "==========");
 
   const getUsers = async () => {
     try {
