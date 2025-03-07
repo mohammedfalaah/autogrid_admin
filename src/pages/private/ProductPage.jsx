@@ -85,8 +85,6 @@ const ProductPage = () => {
         "",
         "header"
       );
-      console.log("responseresponse", response);
-
       setProducts(response.data.products);
       setCurrentPage(response.data.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);

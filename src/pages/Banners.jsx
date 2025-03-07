@@ -67,7 +67,7 @@ const Banners = () => {
   };
 
   const handleEdit = (banner) => {
-    setForm({ title: banner.title, images: [] }); // Pre-fill the form
+    setForm({ title: banner.title, images: [] });
     setCurrentBannerId(banner._id);
     setEditMode(true);
     setShowModal(true);

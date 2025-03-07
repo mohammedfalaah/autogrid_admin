@@ -13,8 +13,6 @@ const Orders = () => {
         "https://node.autogridnumberplate.com/api/getAllOrders",
         { headers }
       );
-      console.log(response, "============");
-
       setOrders(response.data.orders);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -55,40 +53,70 @@ const Orders = () => {
           </li>
         </ol>
       </nav>
+
       {orders.map((order) => (
-        <div key={order._id} className="card mb-3 p-3 shadow-sm">
-          <div className="d-flex justify-content-between align-items-center">
-            <h6>ORDER#: {order.orderId}</h6>
-            <span>
-              PLACED ON: {new Date(order.createdAt).toLocaleDateString()}
-            </span>
-            <h6>TOTAL AMOUNT: ₹{order.totalAmount}</h6>
-            <span className="badge bg-success">{order.status}</span>
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={() => deleteOrder(order.orderId)}
-            >
-              🗑
-            </button>
+        <div key={order._id} className="card mb-4 p-3 shadow-sm">
+          <div className="row align-items-center">
+            <div className="col-md-3 col-12 text-center text-md-start">
+              <h6 className="mb-1">ORDER#: {order.orderId}</h6>
+              <span className="text-muted small">
+                Placed on: {new Date(order.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+            <div className="col-md-3 col-12 text-center text-md-start">
+              <h6>TOTAL AMOUNT: ₹{order.totalAmount}</h6>
+            </div>
+            <div className="col-md-3 col-12 text-center text-md-start">
+              <span
+                className={`badge bg-${
+                  order.status === "Delivered" ? "success" : "warning"
+                }`}
+              >
+                {order.status}
+              </span>
+            </div>
+            <div className="col-md-3 col-12 text-center text-md-end mt-2 mt-md-0">
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => deleteOrder(order.orderId)}
+              >
+                🗑 Delete
+              </button>
+            </div>
           </div>
-          <div className="row mt-3">
+
+          <hr />
+
+          <div className="row">
             {order.products.map((item) => (
-              <div key={item._id} className="col-md-6">
+              <div key={item._id} className="col-lg-4 col-md-6 col-sm-12 mb-3">
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <img
                     src={`https://node.autogridnumberplate.com${item.productId.photographs[0]}`}
                     alt={item.productId.productName}
-                    className="img-thumbnail"
-                    style={{ width: "80px", height: "80px" }}
+                    className="img-thumbnail img-fluid"
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                    }}
                   />
                   <div className="ms-3">
-                    <h6>{item.productId.productName}</h6>
-                    <p>Amount: ₹{item.productId.currentPrice}</p>
-                    <p>Quantity: {item.quantity}</p>
+                    <h6 className="mb-1">{item.productId.productName}</h6>
+                    <p className="mb-1 text-muted ">
+                      Amount: ₹{item.productId.currentPrice}
+                    </p>
+                    <p className="mb-1 text-muted ">
+                      Quantity: {item.quantity}
+                    </p>
                     {item.productId.category !== "ACCESSORIES" && (
                       <>
-                        <p>Vehicle Number: {item.vehicleNumber}</p>
-                        <p>Vehicle Model: {item.vehicleModel}</p>
+                        <p className="mb-1 text-muted ">
+                          Vehicle: {item.vehicleNumber}
+                        </p>
+                        <p className="mb-1 text-muted ">
+                          Model: {item.vehicleModel}
+                        </p>
                       </>
                     )}
                   </div>
@@ -96,17 +124,19 @@ const Orders = () => {
               </div>
             ))}
           </div>
-          <div className="mt-3">
-            <h6>Delivery Address:</h6>
-            <p>
-              {order.address.street}, {order.address.city},{" "}
-              {order.address.state}, {order.address.zipcode},{" "}
-              {order.address.country}
-            </p>
+
+          <hr />
+
+          <div className="row">
+            <div className="col-12">
+              <h6>Delivery Address:</h6>
+              <p className="text-muted">
+                {order.address.street}, {order.address.city},{" "}
+                {order.address.state}, {order.address.postalCode},{" "}
+                {order?.address?.phone}
+              </p>
+            </div>
           </div>
-          {/* <div className="d-flex justify-content-end mt-3">
-                        <button className="btn btn-outline-primary">🖨 Print Invoice</button>
-                    </div> */}
         </div>
       ))}
     </div>
