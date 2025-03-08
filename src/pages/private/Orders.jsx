@@ -131,9 +131,11 @@ const Orders = () => {
             <div className="col-12">
               <h6>Delivery Address:</h6>
               <p className="text-muted">
-
-                {order.address.name},{order.address.street}, {order.address.city},{" "}
-                {order.address.state}, {order.address.postalCode},{" "}
+                Name : {order.address.name} <br />
+                Street: {order.address.street} <br /> City: {order.address.city}{" "}
+                <br /> Country: {order.address.state} <br /> Email :{" "}
+                {order?.address?.email} <br /> Pin code :{" "}
+                {order.address.postalCode} <br /> Phone number :{" "}
                 {order?.address?.phone}
               </p>
             </div>
