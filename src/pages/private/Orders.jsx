@@ -91,12 +91,12 @@ const Orders = () => {
           <hr />
 
           <div className="row">
-            {order.products.map((item) => (
+            {Array.isArray(order.products) && order.products.map((item) => (
               <div key={item._id} className="col-lg-4 col-md-6 col-sm-12 mb-3">
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <img
-                    src={`https://node.autogridnumberplate.com${item.productId.photographs[0]}`}
-                    alt={item.productId.productName}
+                    src={`https://node.autogridnumberplate.com${item.productId.photographs && item.productId.photographs[0] ? item.productId.photographs[0] : ''}`}
+                    alt={item.productId.productName || 'Product'}
                     className="img-thumbnail img-fluid"
                     style={{
                       width: "80px",
@@ -105,7 +105,7 @@ const Orders = () => {
                     }}
                   />
                   <div className="ms-3">
-                    <h6 className="mb-1">{item.productId.productName}</h6>
+                    <h6 className="mb-1">{item.productId.productName || 'Product'}</h6>
                     <p className="mb-1 text-muted ">
                       Amount: ₹{item.productId.currentPrice}
                     </p>
