@@ -8,41 +8,44 @@ document.addEventListener('DOMContentLoaded', function () {
 function floatchart() {
   (function () {
     // map
-    var map = new jsVectorMap({
-      selector: '#world-map-markers',
-      map: 'world',
-      markersSelectable: true,
-      markers: [
-        {
-          coords: [-14.235, -51.9253]
+    var mapElement = document.querySelector('#world-map-markers');
+    if (mapElement) {
+      var map = new jsVectorMap({
+        selector: '#world-map-markers',
+        map: 'world',
+        markersSelectable: true,
+        markers: [
+          {
+            coords: [-14.235, -51.9253]
+          },
+          {
+            coords: [35.8617, 104.1954]
+          },
+          {
+            coords: [61, 105]
+          },
+          {
+            coords: [26.8206, 30.8025]
+          }
+        ],
+        markerStyle: {
+          initial: {
+            fill: '#3f4d67'
+          },
+          hover: {
+            fill: '#04A9F5'
+          }
         },
-        {
-          coords: [35.8617, 104.1954]
-        },
-        {
-          coords: [61, 105]
-        },
-        {
-          coords: [26.8206, 30.8025]
+        markerLabelStyle: {
+          initial: {
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 13,
+            fontWeight: 500,
+            fill: '#3f4d67'
+          }
         }
-      ],
-      markerStyle: {
-        initial: {
-          fill: '#3f4d67'
-        },
-        hover: {
-          fill: '#04A9F5'
-        }
-      },
-      markerLabelStyle: {
-        initial: {
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 13,
-          fontWeight: 500,
-          fill: '#3f4d67'
-        }
-      }
-    });
+      });
+    }
 
     // chart
     var options = {
@@ -100,7 +103,10 @@ function floatchart() {
         }
       }
     };
-    var chart = new ApexCharts(document.querySelector('#earnings-users-chart'), options);
-    chart.render();
+    var chartEl = document.querySelector('#earnings-users-chart');
+    if (chartEl) {
+      var chart = new ApexCharts(chartEl, options);
+      chart.render();
+    }
   })();
 }

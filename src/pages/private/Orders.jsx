@@ -13,11 +13,14 @@ const Orders = () => {
         "https://node.autogridnumberplate.com/api/getAllOrders",
         { headers }
       );
-      setOrders(response.data.orders);
+      setOrders(response.data.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
+
+  console.log(orders);
+  
 
   const deleteOrder = async (orderId) => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
@@ -54,7 +57,7 @@ const Orders = () => {
         </ol>
       </nav>
 
-      {orders.map((order) => (
+      {Array.isArray(orders) && orders.map((order) => (
         <div key={order._id} className="card mb-4 p-3 shadow-sm">
           <div className="row align-items-center">
             <div className="col-md-3 col-12 text-center text-md-start">
@@ -67,16 +70,22 @@ const Orders = () => {
               <h6>TOTAL AMOUNT: ₹{order.totalAmount}</h6>
             </div>
             <div className="col-md-3 col-12 text-center text-md-start">
-              <span
-                className={`badge bg-${order.paymentStatus === "Completed"
-                    ? "success"
-                    : order.paymentStatus === "Failed"
-                      ? "danger"
-                      : "warning"
-                  }`}
-              >
-                {order.paymentStatus}
-              </span>
+              {(() => {
+                let statusLabel = "Pending";
+                let badgeColor = "warning";
+                if (order.paymentStatus === "Completed" || order.paymentStatus === "Delivered") {
+                  statusLabel = "Completed";
+                  badgeColor = "success";
+                } else if (order.paymentStatus === "Failed" || order.paymentStatus === "Cancelled") {
+                  statusLabel = "Failed";
+                  badgeColor = "danger";
+                }
+                return (
+                  <span className={`badge bg-${badgeColor}`}>
+                    {statusLabel}
+                  </span>
+                );
+              })()}
             </div>
             <div className="col-md-3 col-12 text-center text-md-end mt-2 mt-md-0">
               <button
