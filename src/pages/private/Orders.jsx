@@ -67,22 +67,16 @@ const Orders = () => {
               <h6>TOTAL AMOUNT: ₹{order.totalAmount}</h6>
             </div>
             <div className="col-md-3 col-12 text-center text-md-start">
-              {(() => {
-                let statusLabel = "Pending";
-                let badgeColor = "warning";
-                if (order.paymentStatus === "Completed" || order.paymentStatus === "Delivered") {
-                  statusLabel = "Completed";
-                  badgeColor = "success";
-                } else if (order.paymentStatus === "Failed" || order.paymentStatus === "Cancelled") {
-                  statusLabel = "Failed";
-                  badgeColor = "danger";
-                }
-                return (
-                  <span className={`badge bg-${badgeColor}`}>
-                    {statusLabel}
-                  </span>
-                );
-              })()}
+              <span
+                className={`badge bg-${order.paymentStatus === "Completed"
+                    ? "success"
+                    : order.paymentStatus === "Failed"
+                      ? "danger"
+                      : "warning"
+                  }`}
+              >
+                {order.paymentStatus}
+              </span>
             </div>
             <div className="col-md-3 col-12 text-center text-md-end mt-2 mt-md-0">
               <button
